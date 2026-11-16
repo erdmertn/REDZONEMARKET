@@ -1,0 +1,92 @@
+[
+  {
+    "id": "key_1",
+    "productId": "steam-random-vip",
+    "keyCode": "SRND-89F3-X92A-KL01",
+    "status": "AVAILABLE",
+    "orderId": null,
+    "addedAt": "2026-11-16T00:00:00.000Z",
+    "soldAt": null
+  },
+  {
+    "id": "key_2",
+    "productId": "steam-random-vip",
+    "keyCode": "SRND-771B-99QZ-WW45",
+    "status": "AVAILABLE",
+    "orderId": null,
+    "addedAt": "2026-11-16T00:00:00.000Z",
+    "soldAt": null
+  },
+  {
+    "id": "key_3",
+    "productId": "steam-random-vip",
+    "keyCode": "SRND-334A-PP12-MM89",
+    "status": "AVAILABLE",
+    "orderId": null,
+    "addedAt": "2026-11-16T00:00:00.000Z",
+    "soldAt": null
+  },
+  {
+    "id": "key_4",
+    "productId": "valorant-1200-vp",
+    "keyCode": "VAL-1200-TR-X88A-77LK",
+    "status": "SOLD",
+    "orderId": "TR-383741",
+    "addedAt": "2026-11-16T00:00:00.000Z",
+    "soldAt": "2026-11-15T22:52:07.699Z"
+  },
+  {
+    "id": "key_5",
+    "productId": "valorant-1200-vp",
+    "keyCode": "VAL-1200-TR-KK23-90PX",
+    "status": "AVAILABLE",
+    "orderId": null,
+    "addedAt": "2026-11-16T00:00:00.000Z",
+    "soldAt": null
+  },
+  {
+    "id": "key_6",
+    "productId": "cyberpunk-2077",
+    "keyCode": "CP2077-STM-999X-ZZ41-88QQ",
+    "status": "AVAILABLE",
+    "orderId": null,
+    "addedAt": "2026-11-16T00:00:00.000Z",
+    "soldAt": null
+  },
+  {
+    "id": "key_7",
+    "productId": "gta-v-premium",
+    "keyCode": "GTAV-RCK-7712-AA43-WW20",
+    "status": "AVAILABLE",
+    "orderId": null,
+    "addedAt": "2026-11-16T00:00:00.000Z",
+    "soldAt": null
+  },
+  {
+    "id": "key_8",
+    "productId": "xbox-game-pass-ultimate",
+    "keyCode": "XBOX-ULT-4M99-P22L-99KA",
+    "status": "AVAILABLE",
+    "orderId": null,
+    "addedAt": "2026-11-16T00:00:00.000Z",
+    "soldAt": null
+  },
+  {
+    "id": "key_9",
+    "productId": "fc-25-standard",
+    "keyCode": "EA-FC25-ORIG-88A1-PP44-ZZ11",
+    "status": "AVAILABLE",
+    "orderId": null,
+    "addedAt": "2026-11-16T00:00:00.000Z",
+    "soldAt": null
+  },
+  {
+    "id": "key_10",
+    "productId": "psn-500-tl",
+    "keyCode": "PSN-TR-500TL-9A23-44LL-77GG",
+    "status": "AVAILABLE",
+    "orderId": null,
+    "addedAt": "2026-11-16T00:00:00.000Z",
+    "soldAt": null
+  }
+]

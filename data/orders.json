@@ -1,0 +1,27 @@
+[
+  {
+    "id": "TR-383741",
+    "customer": {
+      "name": "Test Oyuncu",
+      "email": "oyuncu@test.com",
+      "phone": "05551112233"
+    },
+    "items": [
+      {
+        "productId": "valorant-1200-vp",
+        "productName": "Valorant 1200 VP (Valorant Points)",
+        "platform": "Riot Games",
+        "price": 289,
+        "quantity": 1,
+        "activationGuide": "1. Valorant istemcisini başlatın.\n2. Sağ üstteki VP simgesine tıklayın.\n3. Ödeme yöntemlerinden 'Ön Ödemeli Kartlar ve Kodlar' seçeneğini seçin.\n4. Kopyaladığınız kodu yapıştırın ve 'Gönder' butonuna basın.",
+        "assignedKeys": [
+          "VAL-1200-TR-X88A-77LK"
+        ]
+      }
+    ],
+    "totalAmount": 289,
+    "paymentMethod": "credit_card",
+    "paymentStatus": "TAMAMLANDI",
+    "createdAt": "2026-11-15T22:52:07.699Z"
+  }
+]

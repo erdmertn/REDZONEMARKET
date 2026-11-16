@@ -1,0 +1,22 @@
+{
+  "siteName": "RedZone Market",
+  "siteTitle": "RedZone Market - Türkiye Dijital Oyun & Key Satış Platformu",
+  "domain": "redzonemartket.com.tr",
+  "contactEmail": "destek@redzonemartket.com.tr",
+  "contactPhone": "+90 (850) 888 00 00",
+  "currency": "₺",
+  "adminPin": "admin123",
+  "announcement": "⚡ RedZone Market'e hoş geldiniz! Tüm oyun keyleri ve Valorant VP kodlarında 7/24 anında otomatik teslimat aktiftir!",
+  "shopier": {
+    "enabled": true,
+    "testMode": true,
+    "apiKey": "test_shopier_api_key_12345",
+    "apiSecret": "test_shopier_secret_67890"
+  },
+  "havale": {
+    "enabled": true,
+    "bankName": "Ziraat Bankası & Garanti BBVA",
+    "iban": "TR33 0001 0002 0003 0004 0005 06",
+    "accountHolder": "RedZone Market Bilişim Hizmetleri"
+  }
+}

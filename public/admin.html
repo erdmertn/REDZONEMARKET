@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Yönetim Paneli - RedZone Market</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#090d16] text-gray-200 min-h-screen flex flex-col">
+
+  <!-- ADMIN AUTH MODAL (Shows if not logged in) -->
+  <div id="authModal" class="fixed inset-0 bg-black/90 backdrop-blur-md z-50 flex items-center justify-center p-4">
+    <div class="bg-slate-900 border border-slate-800 rounded-3xl p-8 max-w-sm w-full shadow-2xl text-center">
+      <div class="w-14 h-14 rounded-2xl bg-rose-500/10 text-rose-500 flex items-center justify-center mx-auto text-2xl mb-4 border border-rose-500/30">
+        <i class="fa-solid fa-lock"></i>
+      </div>
+      <h2 class="font-heading text-2xl font-bold text-white uppercase tracking-wider">RedZone Yönetici Girişi</h2>
+      <p class="text-xs text-gray-400 mt-1 mb-6">Lütfen mağaza yönetici PIN kodunuzu girin.</p>
+      
+      <form id="loginForm" class="space-y-4">
+        <input 
+          type="password" 
+          id="adminPinInput"
+          placeholder="Varsayılan PIN: admin123" 
+          class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-center text-sm text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 tracking-widest"
+          required
+        >
+        <button 
+          type="submit"
+          class="w-full py-3 rounded-xl bg-gradient-to-r from-rose-600 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-bold text-xs shadow-lg shadow-rose-600/25 transition"
+        >
+          Panele Giriş Yap
+        </button>
+      </form>
+      <div class="mt-4 text-[11px] text-gray-500">
+        Demo varsayılan PIN kodu: <span class="text-rose-400 font-mono">admin123</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ADMIN NAVBAR -->
+  <header class="bg-[#0c1220] border-b border-slate-800 py-4 sticky top-0 z-30">
+    <div class="max-w-7xl mx-auto px-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <a href="index.html" class="flex items-center gap-2">
+          <div class="w-8 h-8 rounded-lg bg-rose-600 flex items-center justify-center text-white">
+            <i class="fa-solid fa-gamepad"></i>
+          </div>
+          <span class="font-heading text-lg font-bold text-white tracking-wider">REDZONE MARKET <span class="text-xs text-rose-400 px-2 py-0.5 rounded bg-rose-950 border border-rose-800 ml-2">YÖNETİCİ</span></span>
+        </a>
+      </div>
+
+      <div class="flex items-center gap-4 text-xs">
+        <a href="index.html" target="_blank" class="px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-gray-300 font-medium transition flex items-center gap-1.5">
+          <i class="fa-solid fa-arrow-up-right-from-square"></i>
+          <span>Mağazayı Gör</span>
+        </a>
+        <button onclick="logoutAdmin()" class="text-red-400 hover:text-red-300 transition">
+          <i class="fa-solid fa-right-from-bracket mr-1"></i> Çıkış
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- ADMIN BODY -->
+  <main class="max-w-7xl mx-auto px-4 py-8 flex-1 w-full space-y-8">
+    
+    <!-- STATS OVERVIEW CARDS -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      
+      <!-- Card 1: Revenue -->
+      <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex items-center justify-between">
+        <div>
+          <span class="text-xs text-gray-400 font-medium">Toplam Ciro</span>
+          <div id="statRevenue" class="font-heading text-2xl font-black text-white mt-1">0,00 ₺</div>
+        </div>
+        <div class="w-11 h-11 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-lg">
+          <i class="fa-solid fa-coins"></i>
+        </div>
+      </div>
+
+      <!-- Card 2: Orders -->
+      <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex items-center justify-between">
+        <div>
+          <span class="text-xs text-gray-400 font-medium">Toplam Sipariş</span>
+          <div id="statOrders" class="font-heading text-2xl font-black text-cyan-400 mt-1">0</div>
+        </div>
+        <div class="w-11 h-11 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-lg">
+          <i class="fa-solid fa-cart-shopping"></i>
+        </div>
+      </div>
+
+      <!-- Card 3: Available Keys -->
+      <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex items-center justify-between">
+        <div>
+          <span class="text-xs text-gray-400 font-medium">Aktif Key Stoğu</span>
+          <div id="statAvailableKeys" class="font-heading text-2xl font-black text-indigo-400 mt-1">0</div>
+        </div>
+        <div class="w-11 h-11 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-lg">
+          <i class="fa-solid fa-key"></i>
+        </div>
+      </div>
+
+      <!-- Card 4: Sold Keys -->
+      <div class="bg-slate-900 border border-slate-800 p-5 rounded-2xl flex items-center justify-between">
+        <div>
+          <span class="text-xs text-gray-400 font-medium">Teslim Edilen Keyler</span>
+          <div id="statSoldKeys" class="font-heading text-2xl font-black text-pink-400 mt-1">0</div>
+        </div>
+        <div class="w-11 h-11 rounded-xl bg-pink-500/10 text-pink-400 flex items-center justify-center text-lg">
+          <i class="fa-solid fa-circle-check"></i>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TABS NAVIGATION -->
+    <div class="flex items-center gap-2 border-b border-slate-800 pb-3 overflow-x-auto text-xs sm:text-sm font-semibold">
+      <button onclick="switchTab('keys')" id="tab-keys" class="admin-tab active px-4 py-2 rounded-xl bg-cyan-500 text-white flex items-center gap-2">
+        <i class="fa-solid fa-key"></i> Key Havuzu & Stok Yükleme
+      </button>
+      <button onclick="switchTab('products')" id="tab-products" class="admin-tab px-4 py-2 rounded-xl text-gray-400 hover:text-white flex items-center gap-2">
+        <i class="fa-solid fa-gamepad"></i> Ürün Yönetimi
+      </button>
+      <button onclick="switchTab('orders')" id="tab-orders" class="admin-tab px-4 py-2 rounded-xl text-gray-400 hover:text-white flex items-center gap-2">
+        <i class="fa-solid fa-receipt"></i> Siparişler
+      </button>
+      <button onclick="switchTab('settings')" id="tab-settings" class="admin-tab px-4 py-2 rounded-xl text-gray-400 hover:text-white flex items-center gap-2">
+        <i class="fa-solid fa-sliders"></i> Mağaza Ayarları
+      </button>
+    </div>
+
+    <!-- TAB 1: KEY YÖNETİMİ & TOPLU YÜKLEME -->
+    <div id="content-keys" class="tab-pane space-y-6">
+      
+      <!-- Bulk Key Upload Box -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
+        <h3 class="font-heading text-lg font-bold text-white uppercase tracking-wider mb-2 flex items-center gap-2">
+          <i class="fa-solid fa-cloud-arrow-up text-cyan-400"></i>
+          <span>Toplu Key Yükleme (Otomatik Stok Artışı)</span>
+        </h3>
+        <p class="text-xs text-gray-400 mb-6">
+          Seçtiğiniz oyunun stoğuna alt alta istediğiniz kadar lisans kodu yapıştırıp tek tıkla ekleyebilirsiniz.
+        </p>
+
+        <form id="bulkKeyForm" class="space-y-4">
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-gray-300 mb-1.5">Oyun / Ürün Seçin *</label>
+              <select id="bulkProductSelect" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-xs text-white focus:outline-none focus:border-cyan-500" required>
+                <!-- Populated dynamically -->
+              </select>
+            </div>
+            <div class="md:col-span-2">
+              <label class="block text-xs font-semibold text-gray-300 mb-1.5">Lisans Kodları (Her satıra bir adet kod) *</label>
+              <textarea 
+                id="bulkKeyInput"
+                rows="4" 
+                placeholder="Örn:&#10;XXXXX-YYYYY-ZZZZZ-11111&#10;AAAAA-BBBBB-CCCCC-22222&#10;VAL-1200-TR-XYZ-9999"
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl p-3 text-xs font-mono text-white placeholder-gray-600 focus:outline-none focus:border-cyan-500"
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="flex justify-end">
+            <button 
+              type="submit"
+              class="px-6 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-xs shadow-lg shadow-cyan-500/25 transition active:scale-95"
+            >
+              <i class="fa-solid fa-plus mr-1.5"></i> Kodları Stoğa Ekle
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Key Inventory Table -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <h3 class="font-heading text-lg font-bold text-white uppercase tracking-wider">
+            Mevcut Key Havuzu
+          </h3>
+          <div class="flex items-center gap-2">
+            <select id="keyFilterStatus" onchange="loadKeysTable()" class="bg-slate-950 border border-slate-700 text-xs text-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:border-cyan-500">
+              <option value="">Tüm Durumlar</option>
+              <option value="AVAILABLE">Yalnızca Satışta (Aktif)</option>
+              <option value="SOLD">Yalnızca Satılanlar</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-950 text-gray-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
+              <tr>
+                <th class="p-3">Oyun / Ürün</th>
+                <th class="p-3">Lisans Kodu</th>
+                <th class="p-3">Durum</th>
+                <th class="p-3">Sipariş ID</th>
+                <th class="p-3">Yüklenme Tarihi</th>
+              </tr>
+            </thead>
+            <tbody id="keysTableBody" class="divide-y divide-slate-800/80">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 2: ÜRÜN YÖNETİMİ -->
+    <div id="content-products" class="tab-pane hidden space-y-6">
+      
+      <!-- New Product Form Box -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
+        <h3 class="font-heading text-lg font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-plus-circle text-cyan-400"></i>
+          <span id="productFormTitle">Yeni Oyun / Key Ekle</span>
+        </h3>
+
+        <form id="productForm" class="space-y-4 text-xs">
+          <input type="hidden" id="editProductId">
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-gray-300 font-semibold mb-1">Oyun Adı *</label>
+              <input type="text" id="pName" placeholder="Örn: Red Dead Redemption 2" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" required>
+            </div>
+            <div>
+              <label class="block text-gray-300 font-semibold mb-1">Platform *</label>
+              <select id="pPlatform" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+                <option value="Steam">Steam</option>
+                <option value="Riot Games">Riot Games</option>
+                <option value="Rockstar / Epic">Rockstar / Epic</option>
+                <option value="Xbox / PC">Xbox / PC</option>
+                <option value="EA App">EA App</option>
+                <option value="PlayStation">PlayStation</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-gray-300 font-semibold mb-1">Kategori Kodu *</label>
+              <select id="pCategory" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+                <option value="steam">steam</option>
+                <option value="riot">riot</option>
+                <option value="epic">epic</option>
+                <option value="xbox">xbox</option>
+                <option value="ea">ea</option>
+                <option value="psn">psn</option>
+              </select>
+            </div>
+            <div>
+              <label class="block text-gray-300 font-semibold mb-1">Satış Fiyatı (₺) *</label>
+              <input type="number" step="0.01" id="pPrice" placeholder="299.90" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" required>
+            </div>
+            <div>
+              <label class="block text-gray-300 font-semibold mb-1">Eski / İndirimsiz Fiyat (₺)</label>
+              <input type="number" step="0.01" id="pOldPrice" placeholder="599.90" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+            </div>
+            <div>
+              <label class="block text-gray-300 font-semibold mb-1">Etiket (Örn: ÇOK SATAN, %50 İNDİRİM)</label>
+              <input type="text" id="pTag" placeholder="POPÜLER" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-gray-300 font-semibold mb-1">Kapak Görseli URL'si</label>
+              <input type="url" id="pImage" placeholder="https://images.unsplash.com/..." class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+            </div>
+            <div>
+              <label class="block text-gray-300 font-semibold mb-1">Bölge / Sunucu</label>
+              <input type="text" id="pRegion" value="Global / TR" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-gray-300 font-semibold mb-1">Açıklama</label>
+            <textarea id="pDescription" rows="2" class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white"></textarea>
+          </div>
+
+          <div>
+            <label class="block text-gray-300 font-semibold mb-1">Aktivasyon Rehberi (Key nasıl kullanılır?)</label>
+            <textarea id="pGuide" rows="2" placeholder="1. Steam'i açın > Sol alttan 'Oyun Ekle'..." class="w-full bg-slate-950 border border-slate-700 rounded-xl p-2.5 text-white"></textarea>
+          </div>
+
+          <div class="flex items-center gap-3">
+            <button type="submit" class="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-white font-bold rounded-xl transition">
+              Kaydet
+            </button>
+            <button type="button" onclick="resetProductForm()" class="px-4 py-2.5 bg-slate-800 text-gray-300 rounded-xl hover:bg-slate-700">
+              Vazgeç
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Product List Table -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
+        <h3 class="font-heading text-lg font-bold text-white uppercase tracking-wider mb-4">
+          Tüm Ürünler ve Stok Durumu
+        </h3>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-950 text-gray-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
+              <tr>
+                <th class="p-3">Görsel</th>
+                <th class="p-3">Oyun Adı</th>
+                <th class="p-3">Platform</th>
+                <th class="p-3">Fiyat</th>
+                <th class="p-3">Kalan Stok</th>
+                <th class="p-3">İşlemler</th>
+              </tr>
+            </thead>
+            <tbody id="productsTableBody" class="divide-y divide-slate-800/80">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- TAB 3: SİPARİŞLER -->
+    <div id="content-orders" class="tab-pane hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
+        <h3 class="font-heading text-lg font-bold text-white uppercase tracking-wider mb-4">
+          Müşteri Siparişleri ve Teslim Edilen Keyler
+        </h3>
+
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-950 text-gray-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
+              <tr>
+                <th class="p-3">Sipariş No</th>
+                <th class="p-3">Müşteri</th>
+                <th class="p-3">Satın Alınan Oyunlar</th>
+                <th class="p-3">Tutar</th>
+                <th class="p-3">Ödeme / Durum</th>
+                <th class="p-3">Tarih</th>
+              </tr>
+            </thead>
+            <tbody id="ordersTableBody" class="divide-y divide-slate-800/80">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- TAB 4: MAĞAZA VE ÖDEME AYARLARI -->
+    <div id="content-settings" class="tab-pane hidden space-y-6">
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl max-w-2xl">
+        <h3 class="font-heading text-lg font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
+          <i class="fa-solid fa-sliders text-cyan-400"></i>
+          <span>Ödeme ve Site Ayarları</span>
+        </h3>
+
+        <form id="settingsForm" class="space-y-4 text-xs">
+          <div>
+            <label class="block text-gray-300 font-semibold mb-1">Mağaza Başlığı</label>
+            <input type="text" id="setSiteName" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+          </div>
+
+          <div>
+            <label class="block text-gray-300 font-semibold mb-1">Üst Duyuru Bandı Metni</label>
+            <input type="text" id="setAnnouncement" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+          </div>
+
+          <div class="pt-4 border-t border-slate-800">
+            <h4 class="font-bold text-sm text-cyan-400 mb-2">Shopier API Entegrasyonu</h4>
+            <div class="space-y-3">
+              <div>
+                <label class="block text-gray-400 mb-1">Shopier API Key</label>
+                <input type="text" id="setShopierKey" placeholder="Shopier API Anahtarınız" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+              </div>
+              <div>
+                <label class="block text-gray-400 mb-1">Shopier API Secret</label>
+                <input type="password" id="setShopierSecret" placeholder="••••••••••••••" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-800">
+            <h4 class="font-bold text-sm text-emerald-400 mb-2">Havale / FAST Bilgileri</h4>
+            <div class="space-y-3">
+              <div>
+                <label class="block text-gray-400 mb-1">Banka Adı</label>
+                <input type="text" id="setBankName" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+              </div>
+              <div>
+                <label class="block text-gray-400 mb-1">IBAN Numarası</label>
+                <input type="text" id="setIban" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+              </div>
+              <div>
+                <label class="block text-gray-400 mb-1">Hesap Sahibi Adı</label>
+                <input type="text" id="setAccountHolder" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+              </div>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-800">
+            <button type="submit" class="px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-white font-bold rounded-xl transition">
+              Ayarları Kaydet
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </main>
+
+  <script src="js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ürün Detayı - RedZone Market</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#090d16] text-gray-200 min-h-screen flex flex-col">
+
+  <!-- TOP NAVBAR -->
+  <nav class="sticky top-0 z-40 bg-[#0c1220]/90 backdrop-blur-md border-b border-slate-800/80">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-rose-600 via-red-600 to-amber-500 flex items-center justify-center shadow-lg shadow-rose-600/30">
+          <i class="fa-solid fa-gamepad text-white text-lg"></i>
+        </div>
+        <div class="font-heading text-2xl font-bold tracking-wider text-white">
+          REDZONE<span class="text-rose-500">MARKET</span>
+        </div>
+      </a>
+
+      <div class="flex items-center gap-4">
+        <a href="index.html" class="text-xs font-semibold text-gray-400 hover:text-white transition flex items-center gap-1.5">
+          <i class="fa-solid fa-arrow-left"></i>
+          <span>Tüm Oyunlara Dön</span>
+        </a>
+        <a href="orders.html" class="text-xs font-semibold text-gray-400 hover:text-white transition hidden sm:inline">
+          Keylerim
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN PRODUCT SECTION -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full">
+    
+    <!-- Loading state -->
+    <div id="productLoading" class="py-20 text-center">
+      <i class="fa-solid fa-circle-notch fa-spin text-4xl text-cyan-400"></i>
+      <p class="text-sm text-gray-400 mt-4">Ürün bilgileri yükleniyor...</p>
+    </div>
+
+    <!-- Product Content (hidden until loaded) -->
+    <div id="productContent" class="hidden">
+      
+      <!-- Breadcrumb -->
+      <nav class="flex items-center gap-2 text-xs text-gray-500 mb-6">
+        <a href="index.html" class="hover:text-cyan-400">Ana Sayfa</a>
+        <span>/</span>
+        <span id="breadcrumbCategory" class="text-gray-400">Kategori</span>
+        <span>/</span>
+        <span id="breadcrumbTitle" class="text-gray-200 font-semibold truncate max-w-xs">Ürün</span>
+      </nav>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+        
+        <!-- Left: Image & Platform Specs -->
+        <div class="lg:col-span-5 space-y-6">
+          <div class="relative rounded-3xl overflow-hidden border border-slate-800 bg-slate-900 shadow-2xl">
+            <img id="detailImage" src="" alt="" class="w-full h-80 sm:h-96 object-cover">
+            <div id="detailTag" class="absolute top-4 right-4 px-3 py-1 rounded-md bg-gradient-to-r from-red-600 to-pink-600 text-white text-xs font-bold tracking-wider shadow"></div>
+          </div>
+
+          <!-- Feature badges -->
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <div class="bg-slate-900/80 border border-slate-800 p-3.5 rounded-xl flex items-center gap-3">
+              <i class="fa-solid fa-bolt text-cyan-400 text-xl"></i>
+              <div>
+                <div class="font-bold text-white">Anında Teslimat</div>
+                <div class="text-[11px] text-gray-400">0-30 Sn. Otomatik</div>
+              </div>
+            </div>
+            <div class="bg-slate-900/80 border border-slate-800 p-3.5 rounded-xl flex items-center gap-3">
+              <i class="fa-solid fa-globe text-emerald-400 text-xl"></i>
+              <div>
+                <div class="font-bold text-white">Bölge / Sunucu</div>
+                <div id="detailRegion" class="text-[11px] text-gray-400">TR / Global</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Info, Price, Stock & Actions -->
+        <div class="lg:col-span-7 flex flex-col justify-between space-y-6">
+          
+          <div>
+            <!-- Platform & Stock Badges -->
+            <div class="flex flex-wrap items-center gap-3 mb-3">
+              <span id="detailPlatform" class="px-3 py-1 rounded-lg bg-slate-800 text-cyan-400 text-xs font-bold border border-slate-700">Platform</span>
+              <span id="detailStockBadge" class="badge-instant px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5">
+                <i class="fa-solid fa-bolt"></i> <span id="detailStockText">Yükleniyor</span>
+              </span>
+            </div>
+
+            <!-- Title -->
+            <h1 id="detailTitle" class="font-heading text-3xl sm:text-4xl font-extrabold text-white leading-tight">
+              Oyun Başlığı
+            </h1>
+
+            <!-- Description -->
+            <div class="mt-4 p-4 rounded-2xl bg-slate-900/70 border border-slate-800 text-sm text-gray-300 leading-relaxed">
+              <h4 class="text-xs font-bold text-gray-400 uppercase tracking-wider mb-2">Ürün Açıklaması</h4>
+              <p id="detailDescription"></p>
+            </div>
+
+            <!-- Activation Guide Accordion/Box -->
+            <div class="mt-6 rounded-2xl bg-slate-900/70 border border-cyan-500/30 p-5">
+              <h3 class="font-bold text-sm text-cyan-400 flex items-center gap-2 mb-2">
+                <i class="fa-solid fa-circle-info"></i>
+                <span>Bu Key Nasıl Aktif Edilir? (Kurulum Rehberi)</span>
+              </h3>
+              <div id="detailGuide" class="text-xs text-gray-300 whitespace-pre-line leading-relaxed pl-6 border-l-2 border-cyan-500/50">
+              </div>
+            </div>
+          </div>
+
+          <!-- Price & Action Box -->
+          <div class="p-6 rounded-3xl bg-slate-900 border border-slate-800 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-6">
+            
+            <div>
+              <div id="detailOldPrice" class="text-sm text-gray-500 line-through"></div>
+              <div class="flex items-baseline gap-2">
+                <span id="detailPrice" class="font-heading text-4xl font-black text-cyan-400">0,00 ₺</span>
+                <span class="text-xs text-gray-400">KDV Dahil</span>
+              </div>
+            </div>
+
+            <div class="flex items-center gap-3 w-full sm:w-auto">
+              <button 
+                id="directBuyBtn"
+                class="flex-1 sm:flex-initial px-8 py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-sm shadow-xl shadow-cyan-500/25 transition active:scale-95 flex items-center justify-center gap-2 whitespace-nowrap"
+              >
+                <i class="fa-solid fa-bolt"></i>
+                <span>Hemen Satın Al</span>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!productId) {
+        window.location.href = 'index.html';
+        return;
+      }
+      await loadProductDetail();
+    });
+
+    async function loadProductDetail() {
+      try {
+        const res = await fetch(`/api/products/${productId}`);
+        if (!res.ok) throw new Error('Ürün bulunamadı');
+        const prod = await res.json();
+        renderDetail(prod);
+      } catch (err) {
+        document.getElementById('productLoading').innerHTML = `
+          <div class="text-center py-20">
+            <i class="fa-solid fa-triangle-exclamation text-4xl text-red-400 mb-4"></i>
+            <h2 class="text-xl font-bold text-white">Ürün Bulunamadı</h2>
+            <p class="text-sm text-gray-400 mt-2">Aradığınız oyun veya key yayından kaldırılmış olabilir.</p>
+            <a href="index.html" class="inline-block mt-4 px-6 py-2.5 bg-cyan-500 text-white font-semibold rounded-xl text-xs">Mağazaya Dön</a>
+          </div>
+        `;
+      }
+    }
+
+    function renderDetail(p) {
+      document.getElementById('productLoading').classList.add('hidden');
+      document.getElementById('productContent').classList.remove('hidden');
+
+      document.title = `${p.name} - GameKey TR`;
+
+      document.getElementById('breadcrumbCategory').textContent = p.platform;
+      document.getElementById('breadcrumbTitle').textContent = p.name;
+      document.getElementById('detailImage').src = p.image;
+      document.getElementById('detailImage').alt = p.name;
+      
+      const tagEl = document.getElementById('detailTag');
+      if (p.tag) {
+        tagEl.textContent = p.tag;
+      } else {
+        tagEl.classList.add('hidden');
+      }
+
+      document.getElementById('detailRegion').textContent = p.region || 'Global / TR';
+      document.getElementById('detailPlatform').textContent = p.platform;
+
+      const stockBadge = document.getElementById('detailStockBadge');
+      const stockText = document.getElementById('detailStockText');
+      const buyBtn = document.getElementById('directBuyBtn');
+
+      if (p.stock > 0) {
+        stockText.textContent = `${p.stock} Adet Stokta (Anında Teslim)`;
+        buyBtn.disabled = false;
+      } else {
+        stockBadge.className = 'bg-red-950/80 border border-red-800 text-red-400 px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1.5';
+        stockText.textContent = 'Tükendi (Stokta Yok)';
+        buyBtn.disabled = true;
+        buyBtn.classList.add('opacity-40', 'cursor-not-allowed');
+        buyBtn.innerHTML = '<span>Tükendi</span>';
+      }
+
+      document.getElementById('detailTitle').textContent = p.name;
+      document.getElementById('detailDescription').textContent = p.description;
+      document.getElementById('detailGuide').textContent = p.activationGuide || 'Ödemeden sonra kodunuz ekranda görüntülenecektir.';
+
+      if (p.oldPrice) {
+        document.getElementById('detailOldPrice').textContent = formatCurrency(p.oldPrice);
+      } else {
+        document.getElementById('detailOldPrice').textContent = '';
+      }
+
+      document.getElementById('detailPrice').textContent = formatCurrency(p.price);
+
+      buyBtn.addEventListener('click', () => {
+        // Add to cart and redirect straight to checkout
+        let cart = JSON.parse(localStorage.getItem('gamekey_cart') || '[]');
+        const existing = cart.find(i => i.productId === p.id);
+        if (!existing) {
+          cart.push({
+            productId: p.id,
+            name: p.name,
+            platform: p.platform,
+            price: p.price,
+            image: p.image,
+            quantity: 1
+          });
+        }
+        localStorage.setItem('gamekey_cart', JSON.stringify(cart));
+        window.location.href = 'checkout.html';
+      });
+    }
+
+    function formatCurrency(val) {
+      return new Intl.NumberFormat('tr-TR', {
+        style: 'currency',
+        currency: 'TRY',
+        minimumFractionDigits: 2
+      }).format(val || 0);
+    }
+  </script>
+</body>
+</html>

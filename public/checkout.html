@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Güvenli Ödeme - RedZone Market</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#090d16] text-gray-200 min-h-screen flex flex-col">
+
+  <!-- HEADER -->
+  <header class="bg-[#0c1220] border-b border-slate-800 py-4">
+    <div class="max-w-5xl mx-auto px-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-rose-600 via-red-600 to-amber-500 flex items-center justify-center shadow-lg shadow-rose-600/30">
+          <i class="fa-solid fa-gamepad text-white text-base"></i>
+        </div>
+        <div class="font-heading text-xl font-bold text-white">
+          REDZONE<span class="text-rose-500">MARKET</span>
+        </div>
+      </a>
+      <div class="flex items-center gap-2 text-xs font-semibold text-emerald-400 bg-emerald-950/60 px-3 py-1.5 rounded-full border border-emerald-800/60">
+        <i class="fa-solid fa-lock"></i>
+        <span>256-Bit SSL Korumalı Güvenli Ödeme</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CHECKOUT -->
+  <main class="max-w-5xl mx-auto px-4 py-10 flex-1 w-full">
+    
+    <div class="mb-8">
+      <h1 class="font-heading text-2xl sm:text-3xl font-bold text-white uppercase flex items-center gap-2">
+        <i class="fa-solid fa-shield-halved text-cyan-400"></i>
+        <span>Siparişi Tamamla & Key Teslimatı</span>
+      </h1>
+      <p class="text-xs text-gray-400 mt-1">Ödemeniz tamamlandığı an lisans keyleriniz ekranda görüntülenecektir.</p>
+    </div>
+
+    <!-- Empty cart warning -->
+    <div id="checkoutEmptyWarning" class="hidden text-center py-16 bg-slate-900 rounded-3xl border border-slate-800">
+      <i class="fa-solid fa-cart-shopping text-4xl text-gray-600 mb-3"></i>
+      <h2 class="text-lg font-bold text-white">Sepetiniz Boş</h2>
+      <p class="text-xs text-gray-400 mt-1">Ödeme yapabilmek için önce bir oyun veya key seçmelisiniz.</p>
+      <a href="index.html" class="inline-block mt-4 px-6 py-2.5 bg-cyan-500 hover:bg-cyan-400 text-white font-bold rounded-xl text-xs transition">
+        Mağazaya Dön
+      </a>
+    </div>
+
+    <!-- Main Checkout Form & Summary Grid -->
+    <div id="checkoutContent" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      
+      <!-- Left: Form (7 cols) -->
+      <div class="lg:col-span-7 space-y-6">
+        
+        <!-- Step 1: Customer Details -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+          <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2 mb-4">
+            <span class="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xs">1</span>
+            <span>İletişim & Teslimat Bilgileri</span>
+          </h3>
+
+          <div class="space-y-4 text-xs">
+            <div>
+              <label class="block text-gray-300 font-medium mb-1.5">Adınız ve Soyadınız *</label>
+              <input 
+                type="text" 
+                id="custName"
+                placeholder="Örn: Ahmet Yılmaz" 
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition"
+                required
+              >
+            </div>
+
+            <div>
+              <label class="block text-gray-300 font-medium mb-1.5">E-Posta Adresiniz (Key buraya da gönderilir) *</label>
+              <input 
+                type="email" 
+                id="custEmail"
+                placeholder="Örn: ahmet@gmail.com" 
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition"
+                required
+              >
+            </div>
+
+            <div>
+              <label class="block text-gray-300 font-medium mb-1.5">Telefon Numarası (SMS Bildirimi)</label>
+              <input 
+                type="tel" 
+                id="custPhone"
+                placeholder="Örn: 0555 123 45 67" 
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition"
+              >
+            </div>
+
+            <div>
+              <label class="block text-gray-300 font-medium mb-1.5">Teslimat Notu / Oyun ID / Discord (İsteğe Bağlı)</label>
+              <input 
+                type="text" 
+                id="custNote"
+                placeholder="Örn: Discord: redzone#1234 veya Riot ID: Oyuncu#TR1" 
+                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition"
+              >
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 2: Payment Method -->
+        <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-6">
+          <h3 class="text-sm font-bold text-white uppercase tracking-wider flex items-center gap-2 mb-4">
+            <span class="w-6 h-6 rounded-full bg-cyan-500/20 text-cyan-400 flex items-center justify-center text-xs">2</span>
+            <span>Ödeme Yöntemi Seçin</span>
+          </h3>
+
+          <div class="space-y-3">
+            
+            <!-- Method 1: Credit Card (Simulated/Test) -->
+            <label class="payment-method-card flex items-start gap-3 p-4 rounded-xl border border-cyan-500/50 bg-cyan-950/20 cursor-pointer transition">
+              <input type="radio" name="paymentMethod" value="credit_card" checked class="mt-1 accent-cyan-500">
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-credit-card text-cyan-400"></i>
+                    <span>Kredi / Banka Kartı (3D Secure)</span>
+                  </span>
+                  <div class="flex items-center gap-1.5 text-base text-gray-400">
+                    <i class="fa-brands fa-cc-visa text-blue-400"></i>
+                    <i class="fa-brands fa-cc-mastercard text-orange-400"></i>
+                    <i class="fa-brands fa-troy text-emerald-400 text-xs font-bold">TROY</i>
+                  </div>
+                </div>
+                <p class="text-[11px] text-gray-400 mt-1">Tüm banka ve kredi kartlarıyla anında 3D Secure onaylı ödeme.</p>
+
+                <!-- Card Form Inputs -->
+                <div id="cardInputs" class="mt-4 pt-4 border-t border-slate-800/80 space-y-3 text-xs">
+                  <div>
+                    <label class="block text-gray-400 mb-1">Kart Numarası (Test için rastgele doldurabilirsiniz)</label>
+                    <input 
+                      type="text" 
+                      id="cardNumber"
+                      placeholder="4543 •••• •••• 1234" 
+                      maxlength="19"
+                      value="4543 0000 1111 2222"
+                      class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-cyan-500"
+                    >
+                  </div>
+                  <div class="grid grid-cols-2 gap-3">
+                    <div>
+                      <label class="block text-gray-400 mb-1">Son Kullanma (AA/YY)</label>
+                      <input 
+                        type="text" 
+                        placeholder="12/28" 
+                        maxlength="5"
+                        value="12/28"
+                        class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-cyan-500"
+                      >
+                    </div>
+                    <div>
+                      <label class="block text-gray-400 mb-1">CVV / Güvenlik Kodu</label>
+                      <input 
+                        type="password" 
+                        placeholder="•••" 
+                        maxlength="3"
+                        value="123"
+                        class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3.5 py-2.5 text-white focus:outline-none focus:border-cyan-500"
+                      >
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </label>
+
+            <!-- Method 2: Shopier -->
+            <label class="payment-method-card flex items-start gap-3 p-4 rounded-xl border border-slate-800 bg-slate-950/60 cursor-pointer hover:border-slate-700 transition">
+              <input type="radio" name="paymentMethod" value="shopier" class="mt-1 accent-cyan-500">
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-bag-shopping text-pink-400"></i>
+                    <span>Shopier ile Güvenli Ödeme</span>
+                  </span>
+                  <span class="text-[10px] bg-pink-950/60 text-pink-400 border border-pink-800/60 px-2 py-0.5 rounded font-bold">Popüler</span>
+                </div>
+                <p class="text-[11px] text-gray-400 mt-1">Shopier güvencesiyle tek tıkla kartla ödeme yapın.</p>
+              </div>
+            </label>
+
+            <!-- Method 3: Havale / EFT -->
+            <label class="payment-method-card flex items-start gap-3 p-4 rounded-xl border border-slate-800 bg-slate-950/60 cursor-pointer hover:border-slate-700 transition">
+              <input type="radio" name="paymentMethod" value="havale" class="mt-1 accent-cyan-500">
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs font-bold text-white flex items-center gap-2">
+                    <i class="fa-solid fa-building-columns text-emerald-400"></i>
+                    <span>Havale / EFT / FAST</span>
+                  </span>
+                  <span class="text-[10px] bg-emerald-950/60 text-emerald-400 border border-emerald-800/60 px-2 py-0.5 rounded font-bold">0 Komisyon</span>
+                </div>
+                <p class="text-[11px] text-gray-400 mt-1">Banka hesabımıza FAST ile 7/24 anında havale yapabilirsiniz.</p>
+              </div>
+            </label>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right: Order Summary (5 cols) -->
+      <div class="lg:col-span-5 space-y-6">
+        
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-2xl sticky top-28">
+          <h3 class="font-heading text-lg font-bold text-white uppercase tracking-wider mb-4 pb-3 border-b border-slate-800 flex items-center justify-between">
+            <span>Sipariş Özeti</span>
+            <span id="summaryItemCount" class="text-xs font-normal text-cyan-400">0 Ürün</span>
+          </h3>
+
+          <!-- Items list -->
+          <div id="summaryItemsList" class="space-y-3 max-h-64 overflow-y-auto pr-1">
+            <!-- Rendered by JS -->
+          </div>
+
+          <!-- Total Calculation -->
+          <div class="mt-6 pt-4 border-t border-slate-800 space-y-2.5 text-xs">
+            <div class="flex items-center justify-between text-gray-400">
+              <span>Ara Toplam:</span>
+              <span id="summarySubtotal" class="font-medium text-white">0,00 ₺</span>
+            </div>
+            <div class="flex items-center justify-between text-gray-400">
+              <span>Dijital Teslimat Ücreti:</span>
+              <span class="text-emerald-400 font-bold uppercase">ÜCRETSİZ (ANINDA)</span>
+            </div>
+            <div class="pt-3 border-t border-slate-800 flex items-center justify-between">
+              <span class="text-sm font-bold text-white">Ödenecek Tutar:</span>
+              <span id="summaryGrandTotal" class="font-heading text-2xl font-black text-cyan-400">0,00 ₺</span>
+            </div>
+          </div>
+
+          <!-- Instant Delivery Guarantee Notice -->
+          <div class="mt-6 bg-cyan-950/40 border border-cyan-500/30 rounded-2xl p-3.5 text-xs text-cyan-300 flex items-start gap-3">
+            <i class="fa-solid fa-bolt text-lg mt-0.5 text-cyan-400"></i>
+            <div>
+              <div class="font-bold">Otomatik Key Teslimatı</div>
+              <p class="text-[11px] text-gray-400 mt-0.5">
+                Ödemeyi tamamladığınız anda lisans kodunuz ekranda belirir ve e-postanıza iletilir.
+              </p>
+            </div>
+          </div>
+
+          <!-- Submit Order Button -->
+          <button 
+            id="submitOrderBtn"
+            onclick="processOrder()"
+            class="mt-6 w-full py-4 rounded-2xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-sm shadow-xl shadow-cyan-500/25 transition active:scale-95 flex items-center justify-center gap-2"
+          >
+            <i class="fa-solid fa-lock"></i>
+            <span>Ödemeyi Yap & Key'i Al</span>
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- LOADING OVERLAY (Simulating 3D Secure / Payment Approval) -->
+  <div id="paymentLoadingOverlay" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden flex-col items-center justify-center text-center p-4">
+    <div class="w-20 h-20 rounded-2xl bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center mb-6 shadow-2xl shadow-cyan-500/30 animate-bounce">
+      <i class="fa-solid fa-shield-halved text-white text-3xl"></i>
+    </div>
+    <h3 class="font-heading text-2xl font-bold text-white uppercase tracking-wider">3D Secure Doğrulaması Yapılıyor</h3>
+    <p class="text-xs text-gray-400 mt-2 max-w-sm">
+      Banka ile iletişim kuruluyor ve oyun lisans kodunuz stok havuzundan hazırlanıyor. Lütfen sayfayı kapatmayın...
+    </p>
+    <div class="mt-6 w-48 h-1.5 bg-slate-800 rounded-full overflow-hidden">
+      <div class="h-full bg-cyan-400 rounded-full animate-pulse w-3/4"></div>
+    </div>
+  </div>
+
+  <script>
+    let cart = JSON.parse(localStorage.getItem('gamekey_cart') || '[]');
+
+    document.addEventListener('DOMContentLoaded', () => {
+      renderSummary();
+
+      // Switch active borders for payment method cards
+      const methodCards = document.querySelectorAll('input[name="paymentMethod"]');
+      methodCards.forEach(radio => {
+        radio.addEventListener('change', () => {
+          document.querySelectorAll('.payment-method-card').forEach(card => {
+            card.classList.remove('border-cyan-500/50', 'bg-cyan-950/20');
+            card.classList.add('border-slate-800', 'bg-slate-950/60');
+          });
+          const parent = radio.closest('.payment-method-card');
+          parent.classList.remove('border-slate-800', 'bg-slate-950/60');
+          parent.classList.add('border-cyan-500/50', 'bg-cyan-950/20');
+        });
+      });
+    });
+
+    function renderSummary() {
+      const emptyBox = document.getElementById('checkoutEmptyWarning');
+      const content = document.getElementById('checkoutContent');
+      const itemsList = document.getElementById('summaryItemsList');
+      const countEl = document.getElementById('summaryItemCount');
+      const subtotalEl = document.getElementById('summarySubtotal');
+      const grandTotalEl = document.getElementById('summaryGrandTotal');
+
+      if (cart.length === 0) {
+        emptyBox.classList.remove('hidden');
+        content.classList.add('hidden');
+        return;
+      }
+
+      emptyBox.classList.add('hidden');
+      content.classList.remove('hidden');
+
+      const totalItems = cart.reduce((sum, i) => sum + i.quantity, 0);
+      const totalPrice = cart.reduce((sum, i) => sum + i.price * i.quantity, 0);
+
+      countEl.textContent = `${totalItems} Ürün`;
+      subtotalEl.textContent = formatCurrency(totalPrice);
+      grandTotalEl.textContent = formatCurrency(totalPrice);
+
+      itemsList.innerHTML = cart.map(item => `
+        <div class="flex items-center gap-3 bg-slate-950 p-2.5 rounded-xl border border-slate-800">
+          <img src="${item.image}" alt="${item.name}" class="w-12 h-12 rounded-lg object-cover">
+          <div class="flex-1 min-w-0">
+            <h4 class="text-xs font-bold text-white truncate">${item.name}</h4>
+            <div class="text-[11px] text-gray-400">${item.quantity} Adet × ${formatCurrency(item.price)}</div>
+          </div>
+          <div class="text-xs font-bold text-cyan-400">
+            ${formatCurrency(item.price * item.quantity)}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    async function processOrder() {
+      const name = document.getElementById('custName').value.trim();
+      const email = document.getElementById('custEmail').value.trim();
+      const phone = document.getElementById('custPhone').value.trim();
+      const note = document.getElementById('custNote')?.value.trim() || '';
+      const paymentMethod = document.querySelector('input[name="paymentMethod"]:checked')?.value || 'credit_card';
+
+      if (!name || !email) {
+        alert('Lütfen Ad, Soyad ve geçerli bir E-Posta adresi giriniz.');
+        return;
+      }
+
+      if (!email.includes('@') || !email.includes('.')) {
+        alert('Lütfen geçerli bir e-posta adresi yazınız (Key teslimatı bu adrese de iletilir).');
+        return;
+      }
+
+      const overlay = document.getElementById('paymentLoadingOverlay');
+      overlay.classList.remove('hidden');
+      overlay.classList.add('flex');
+
+      try {
+        const response = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            customer: { name, email, phone, note },
+            items: cart.map(i => ({ productId: i.productId, quantity: i.quantity })),
+            paymentMethod: paymentMethod
+          })
+        });
+
+        const result = await response.json();
+
+        if (!response.ok) {
+          overlay.classList.add('hidden');
+          overlay.classList.remove('flex');
+          alert('Hata: ' + (result.error || 'Sipariş oluşturulamadı.'));
+          return;
+        }
+
+        // Clear cart
+        localStorage.removeItem('gamekey_cart');
+
+        // Delay 1.5 seconds for visual 3D Secure authenticity, then redirect
+        setTimeout(() => {
+          window.location.href = `success.html?orderId=${result.orderId}`;
+        }, 1500);
+
+      } catch (err) {
+        overlay.classList.add('hidden');
+        overlay.classList.remove('flex');
+        alert('Bağlantı hatası: ' + err.message);
+      }
+    }
+
+    function formatCurrency(val) {
+      return new Intl.NumberFormat('tr-TR', {
+        style: 'currency',
+        currency: 'TRY',
+        minimumFractionDigits: 2
+      }).format(val || 0);
+    }
+  </script>
+</body>
+</html>

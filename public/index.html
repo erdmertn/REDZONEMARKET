@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RedZone Market - Türkiye Dijital Oyun & Key Satış Platformu</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#090d16] text-gray-200 min-h-screen flex flex-col">
+
+  <!-- TOP ANNOUNCEMENT BAR -->
+  <div class="bg-gradient-to-r from-blue-900 via-indigo-950 to-purple-900 py-1.5 px-4 text-xs font-medium text-center border-b border-indigo-800/40 flex items-center justify-center gap-2">
+    <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+    <span id="announcementText">⚡ Tüm oyun keyleri ve Valorant VP kodlarında 7/24 anında otomatik teslimat aktiftir!</span>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav class="sticky top-0 z-40 bg-[#0c1220]/90 backdrop-blur-md border-b border-slate-800/80 transition-all">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-20">
+        
+        <!-- Logo -->
+        <a href="index.html" class="flex items-center gap-3 group">
+          <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-rose-600 via-red-600 to-amber-500 flex items-center justify-center shadow-lg shadow-rose-600/30 group-hover:scale-105 transition">
+            <i class="fa-solid fa-gamepad text-white text-xl"></i>
+          </div>
+          <div>
+            <div class="font-heading text-2xl font-bold tracking-wider text-white flex items-center gap-1">
+              REDZONE<span class="text-rose-500 glow-text-cyan">MARKET</span>
+            </div>
+            <div class="text-[10px] text-gray-400 tracking-widest uppercase -mt-1">Dijital Oyun Marketi</div>
+          </div>
+        </a>
+
+        <!-- Search Bar (Desktop) -->
+        <div class="hidden md:flex flex-1 max-w-md mx-8 relative">
+          <input 
+            type="text" 
+            id="searchInput"
+            placeholder="Oyun veya kod ara (örn: Valorant, Steam, Cyberpunk)..." 
+            class="w-full bg-slate-900/90 border border-slate-700/80 rounded-xl py-2.5 pl-11 pr-4 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-cyan-500 focus:ring-1 focus:ring-cyan-500 transition shadow-inner"
+          >
+          <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-gray-400"></i>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex items-center gap-3 sm:gap-4">
+          
+          <!-- Key Sorgula / Siparişlerim -->
+          <a href="orders.html" class="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 text-xs font-semibold text-gray-200 hover:text-white transition">
+            <i class="fa-solid fa-key text-cyan-400"></i>
+            <span>Keylerimi Gör</span>
+          </a>
+
+          <!-- Sepet Butonu -->
+          <button 
+            id="cartBtn"
+            class="relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-sm shadow-lg shadow-cyan-500/20 transition active:scale-95"
+          >
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span class="hidden sm:inline">Sepet</span>
+            <span id="cartCountBadge" class="w-5 h-5 rounded-full bg-black/60 text-white text-xs flex items-center justify-center font-bold">0</span>
+          </button>
+
+          <!-- Admin Link -->
+          <a href="admin.html" title="Yönetici Paneli" class="p-2.5 rounded-xl bg-slate-800/50 hover:bg-slate-750 text-gray-400 hover:text-cyan-400 border border-slate-700/60 transition">
+            <i class="fa-solid fa-gear"></i>
+          </a>
+
+        </div>
+
+      </div>
+
+      <!-- Mobile Search Bar -->
+      <div class="md:hidden pb-3">
+        <div class="relative">
+          <input 
+            type="text" 
+            id="mobileSearchInput"
+            placeholder="Oyun ara (Valorant, Steam, FC 25)..." 
+            class="w-full bg-slate-900 border border-slate-700 rounded-xl py-2 pl-10 pr-4 text-xs text-gray-200 placeholder-gray-500 focus:outline-none focus:border-cyan-500"
+          >
+          <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-2.5 text-gray-400 text-xs"></i>
+        </div>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- HERO SECTION -->
+  <header class="relative overflow-hidden bg-gradient-to-b from-[#0c1220] via-[#090d16] to-[#090d16] py-12 md:py-16 border-b border-slate-800/60">
+    <!-- Glow Background Accents -->
+    <div class="absolute -top-40 left-1/4 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute -top-40 right-1/4 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div class="text-center max-w-3xl mx-auto">
+        
+        <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-950/70 border border-cyan-500/30 text-cyan-400 text-xs font-semibold uppercase tracking-wider mb-4 animate-pulse-slow">
+          <i class="fa-solid fa-bolt"></i> %100 Otomatik & Güvenli Teslimat
+        </div>
+
+        <h1 class="font-heading text-4xl sm:text-5xl md:text-6xl font-black text-white tracking-tight uppercase leading-none">
+          OYUN VE DİJİTAL KODLARI <br>
+          <span class="bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400 bg-clip-text text-transparent">ANINDA HESABINDA</span>
+        </h1>
+
+        <p class="mt-4 text-base sm:text-lg text-gray-400 leading-relaxed max-w-2xl mx-auto">
+          Steam Keyleri, Valorant VP, Riot Points, Xbox ve PSN kodları en avantajlı fiyatlarla. Ödemeyi yapın, keyinizi ekranda saniyeler içinde anında teslim alın!
+        </p>
+
+        <!-- Feature Mini Badges -->
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-4 text-xs font-medium text-gray-300">
+          <div class="flex items-center gap-2 bg-slate-900/80 border border-slate-800 px-3.5 py-2 rounded-lg">
+            <i class="fa-solid fa-clock text-emerald-400"></i>
+            <span>0-30 Sn. Otomatik Teslim</span>
+          </div>
+          <div class="flex items-center gap-2 bg-slate-900/80 border border-slate-800 px-3.5 py-2 rounded-lg">
+            <i class="fa-solid fa-shield-halved text-cyan-400"></i>
+            <span>3D Secure Güvenli Ödeme</span>
+          </div>
+          <div class="flex items-center gap-2 bg-slate-900/80 border border-slate-800 px-3.5 py-2 rounded-lg">
+            <i class="fa-solid fa-certificate text-amber-400"></i>
+            <span>%100 Orijinal Lisans</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- PLATFORM CATEGORY FILTERS -->
+  <section class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-6 relative z-20">
+    <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-2 sm:p-3 shadow-2xl backdrop-blur-md flex items-center gap-2 overflow-x-auto no-scrollbar">
+      
+      <button class="category-btn active px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition whitespace-nowrap flex items-center gap-2 bg-cyan-500 text-white shadow-md shadow-cyan-500/20" data-category="all">
+        <i class="fa-solid fa-border-all"></i>
+        <span>Tüm Oyunlar</span>
+      </button>
+
+      <button class="category-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition whitespace-nowrap flex items-center gap-2 bg-slate-800/80 hover:bg-slate-750 text-gray-300 hover:text-white" data-category="steam">
+        <i class="fa-brands fa-steam text-blue-400"></i>
+        <span>Steam Key</span>
+      </button>
+
+      <button class="category-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition whitespace-nowrap flex items-center gap-2 bg-slate-800/80 hover:bg-slate-750 text-gray-300 hover:text-white" data-category="riot">
+        <i class="fa-solid fa-fire text-red-500"></i>
+        <span>Valorant & LoL</span>
+      </button>
+
+      <button class="category-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition whitespace-nowrap flex items-center gap-2 bg-slate-800/80 hover:bg-slate-750 text-gray-300 hover:text-white" data-category="epic">
+        <i class="fa-solid fa-cube text-purple-400"></i>
+        <span>Epic Games & GTA</span>
+      </button>
+
+      <button class="category-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition whitespace-nowrap flex items-center gap-2 bg-slate-800/80 hover:bg-slate-750 text-gray-300 hover:text-white" data-category="xbox">
+        <i class="fa-brands fa-xbox text-green-400"></i>
+        <span>Xbox Game Pass</span>
+      </button>
+
+      <button class="category-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition whitespace-nowrap flex items-center gap-2 bg-slate-800/80 hover:bg-slate-750 text-gray-300 hover:text-white" data-category="ea">
+        <i class="fa-solid fa-gamepad text-orange-400"></i>
+        <span>EA & FC 25</span>
+      </button>
+
+      <button class="category-btn px-4 py-2.5 rounded-xl text-xs sm:text-sm font-semibold transition whitespace-nowrap flex items-center gap-2 bg-slate-800/80 hover:bg-slate-750 text-gray-300 hover:text-white" data-category="psn">
+        <i class="fa-brands fa-playstation text-blue-500"></i>
+        <span>PlayStation</span>
+      </button>
+
+    </div>
+  </section>
+
+  <!-- MAIN CATALOG -->
+  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-1 w-full">
+    
+    <!-- Section Header -->
+    <div class="flex items-center justify-between mb-8 pb-4 border-b border-slate-800">
+      <div>
+        <h2 class="font-heading text-2xl sm:text-3xl font-bold text-white tracking-wide flex items-center gap-2">
+          <span>OYUN KATALOĞU</span>
+          <span id="productCountBadge" class="text-xs font-normal px-2.5 py-0.5 rounded-full bg-slate-800 text-cyan-400 border border-slate-700">0 Ürün</span>
+        </h2>
+        <p class="text-xs text-gray-400 mt-1">Anında otomatik key teslimatı yapılan popüler oyun ve lisans kodları</p>
+      </div>
+
+      <!-- Quick Sort -->
+      <div class="flex items-center gap-2">
+        <label for="sortSelect" class="text-xs text-gray-400 hidden sm:inline">Sıralama:</label>
+        <select id="sortSelect" class="bg-slate-900 border border-slate-700 text-xs text-gray-200 rounded-lg px-3 py-1.5 focus:outline-none focus:border-cyan-500">
+          <option value="featured">Öne Çıkanlar</option>
+          <option value="price-asc">Fiyat: Düşükten Yükseğe</option>
+          <option value="price-desc">Fiyat: Yüksekten Düşüğe</option>
+          <option value="stock">Stok Sayısına Göre</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Product Grid -->
+    <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+      <!-- Loading skeletons will be replaced by app.js -->
+      <div class="bg-slate-900/60 rounded-2xl h-80 animate-pulse border border-slate-800"></div>
+      <div class="bg-slate-900/60 rounded-2xl h-80 animate-pulse border border-slate-800"></div>
+      <div class="bg-slate-900/60 rounded-2xl h-80 animate-pulse border border-slate-800"></div>
+      <div class="bg-slate-900/60 rounded-2xl h-80 animate-pulse border border-slate-800"></div>
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="hidden text-center py-16 bg-slate-900/40 rounded-3xl border border-slate-800/80 my-8">
+      <div class="w-16 h-16 rounded-full bg-slate-800 flex items-center justify-center mx-auto mb-4 text-gray-500 text-2xl">
+        <i class="fa-solid fa-box-open"></i>
+      </div>
+      <h3 class="text-lg font-bold text-gray-200">Aradığınız kriterde ürün bulunamadı</h3>
+      <p class="text-sm text-gray-500 mt-1">Farklı bir arama terimi veya kategori deneyin.</p>
+      <button onclick="resetFilters()" class="mt-4 px-4 py-2 bg-cyan-500 hover:bg-cyan-400 text-white text-xs font-semibold rounded-xl">Filtreleri Sıfırla</button>
+    </div>
+
+  </main>
+
+  <!-- TRUST & HOW IT WORKS BANNER -->
+  <section class="bg-[#0b101c] border-y border-slate-800/80 py-12 mt-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-2xl mx-auto mb-10">
+        <h2 class="font-heading text-2xl sm:text-3xl font-bold text-white uppercase">Nasıl Satın Alınır ve Teslim Edilir?</h2>
+        <p class="text-xs sm:text-sm text-gray-400 mt-1">Sistemimiz tamamen otomatik çalışır, bekleme süresi yoktur.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        
+        <!-- Step 1 -->
+        <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-6 relative overflow-hidden group hover:border-cyan-500/40 transition">
+          <div class="text-4xl font-black font-heading text-cyan-500/20 absolute -right-2 -top-2">01</div>
+          <div class="w-12 h-12 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-xl mb-4">
+            <i class="fa-solid fa-gamepad"></i>
+          </div>
+          <h3 class="text-base font-bold text-white">Oyunu veya Kodu Seçin</h3>
+          <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+            İstediğiniz oyunu veya dijital cüzdan kodunu sepete ekleyin ve sipariş adımlarını başlatın.
+          </p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-6 relative overflow-hidden group hover:border-indigo-500/40 transition">
+          <div class="text-4xl font-black font-heading text-indigo-500/20 absolute -right-2 -top-2">02</div>
+          <div class="w-12 h-12 rounded-xl bg-indigo-500/10 text-indigo-400 flex items-center justify-center text-xl mb-4">
+            <i class="fa-solid fa-credit-card"></i>
+          </div>
+          <h3 class="text-base font-bold text-white">Güvenli Ödemenizi Yapın</h3>
+          <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+            3D Secure güvencesiyle kredi kartı, banka kartı veya Shopier / Havale seçenekleriyle ödemenizi gerçekleştirin.
+          </p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="bg-slate-900/70 border border-slate-800 rounded-2xl p-6 relative overflow-hidden group hover:border-emerald-500/40 transition">
+          <div class="text-4xl font-black font-heading text-emerald-500/20 absolute -right-2 -top-2">03</div>
+          <div class="w-12 h-12 rounded-xl bg-emerald-500/10 text-emerald-400 flex items-center justify-center text-xl mb-4">
+            <i class="fa-solid fa-key"></i>
+          </div>
+          <h3 class="text-base font-bold text-white">Keyinizi Anında Ekranda Görün</h3>
+          <p class="text-xs text-gray-400 mt-2 leading-relaxed">
+            Ödeme bittiği salise lisans kodunuz ekranda belirir ve e-postanıza gönderilir. Tek tıkla kopyalayıp hemen aktifleştirin.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="bg-[#070a12] border-t border-slate-800/80 py-10 mt-auto">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 md:grid-cols-4 gap-8 pb-8 border-b border-slate-800/60">
+        
+        <!-- Col 1 -->
+        <div class="space-y-3">
+          <div class="font-heading text-xl font-bold tracking-wider text-white">
+            REDZONE<span class="text-rose-500">MARKET</span>
+          </div>
+          <p class="text-xs text-gray-400 leading-relaxed">
+            Türkiye'nin lider dijital oyun, lisans ve hediye kartı platformu. 7/24 anında teslimat ve güvenilir altyapı.
+          </p>
+          <div class="flex items-center gap-3 pt-2 text-gray-400 text-sm">
+            <a href="#" class="hover:text-cyan-400 transition"><i class="fa-brands fa-discord"></i></a>
+            <a href="#" class="hover:text-cyan-400 transition"><i class="fa-brands fa-instagram"></i></a>
+            <a href="#" class="hover:text-cyan-400 transition"><i class="fa-brands fa-x-twitter"></i></a>
+            <a href="#" class="hover:text-cyan-400 transition"><i class="fa-brands fa-youtube"></i></a>
+          </div>
+        </div>
+
+        <!-- Col 2 -->
+        <div>
+          <h4 class="text-xs font-bold text-gray-200 uppercase tracking-wider mb-3">Hızlı Bağlantılar</h4>
+          <ul class="space-y-2 text-xs text-gray-400">
+            <li><a href="index.html" class="hover:text-white transition">Tüm Oyunlar</a></li>
+            <li><a href="orders.html" class="hover:text-white transition">Keylerimi Sorgula</a></li>
+            <li><a href="#" onclick="openActivationModal()" class="hover:text-white transition">Aktivasyon Rehberi</a></li>
+            <li><a href="admin.html" class="hover:text-cyan-400 transition flex items-center gap-1"><i class="fa-solid fa-lock text-[10px]"></i> Yönetici Girişi</a></li>
+          </ul>
+        </div>
+
+        <!-- Col 3 -->
+        <div>
+          <h4 class="text-xs font-bold text-gray-200 uppercase tracking-wider mb-3">Müşteri Desteği</h4>
+          <ul class="space-y-2 text-xs text-gray-400">
+            <li class="flex items-center gap-2"><i class="fa-regular fa-envelope text-cyan-400"></i> destek@redzonemartket.com.tr</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-phone text-cyan-400"></i> +90 (850) 888 00 00</li>
+            <li class="flex items-center gap-2"><i class="fa-solid fa-clock text-cyan-400"></i> 7/24 Canlı Destek</li>
+          </ul>
+        </div>
+
+        <!-- Col 4: Payments -->
+        <div>
+          <h4 class="text-xs font-bold text-gray-200 uppercase tracking-wider mb-3">Güvenli Ödeme</h4>
+          <p class="text-[11px] text-gray-400 mb-3">Tüm işlemleriniz 256-Bit SSL ve 3D Secure güvencesiyle korunur.</p>
+          <div class="flex flex-wrap items-center gap-2 text-gray-400 text-xl">
+            <i class="fa-brands fa-cc-visa text-blue-400"></i>
+            <i class="fa-brands fa-cc-mastercard text-orange-400"></i>
+            <i class="fa-solid fa-building-columns text-emerald-400 text-base"></i>
+            <span class="text-[10px] bg-slate-800 text-gray-300 px-2 py-0.5 rounded border border-slate-700">Shopier</span>
+            <span class="text-[10px] bg-slate-800 text-gray-300 px-2 py-0.5 rounded border border-slate-700">PayTR</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-[11px] text-gray-500 gap-2">
+        <p>&copy; 2026 RedZone Market (redzonemartket.com.tr). Tüm hakları saklıdır. Lisanslar ilgili platformların tescilli markalarıdır.</p>
+        <div class="flex items-center gap-4">
+          <a href="#" class="hover:text-gray-400">Kullanım Koşulları</a>
+          <a href="#" class="hover:text-gray-400">Gizlilik Politikası</a>
+          <a href="#" class="hover:text-gray-400">İptal ve İade</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- CART SLIDE-OVER DRAWER -->
+  <div id="cartDrawerBackdrop" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-50 hidden transition-opacity opacity-0">
+    <div id="cartDrawer" class="absolute top-0 right-0 w-full max-w-md h-full bg-[#0c1220] border-l border-slate-800 flex flex-col transform translate-x-full transition-transform duration-300 shadow-2xl">
+      
+      <!-- Drawer Header -->
+      <div class="p-5 border-b border-slate-800 flex items-center justify-between">
+        <div class="flex items-center gap-2">
+          <i class="fa-solid fa-cart-shopping text-cyan-400 text-lg"></i>
+          <h3 class="font-heading text-lg font-bold text-white">SEPETİM</h3>
+          <span id="drawerCartCount" class="text-xs px-2 py-0.5 bg-slate-800 text-gray-300 rounded-full font-semibold">0 Ürün</span>
+        </div>
+        <button id="closeCartBtn" class="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition">
+          <i class="fa-solid fa-xmark text-lg"></i>
+        </button>
+      </div>
+
+      <!-- Drawer Items -->
+      <div id="cartItemsContainer" class="flex-1 overflow-y-auto p-5 space-y-4">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Drawer Footer -->
+      <div class="p-5 border-t border-slate-800 bg-[#090d16]/90 space-y-4">
+        <div class="flex items-center justify-between text-sm">
+          <span class="text-gray-400">Ara Toplam:</span>
+          <span id="cartSubtotal" class="font-bold text-white">0,00 ₺</span>
+        </div>
+        <div class="flex items-center justify-between text-base">
+          <span class="font-semibold text-gray-200">Toplam Tutar:</span>
+          <span id="cartTotal" class="font-heading text-2xl font-black text-cyan-400">0,00 ₺</span>
+        </div>
+        <div class="text-[11px] text-emerald-400 flex items-center gap-1.5 bg-emerald-950/40 p-2 rounded-lg border border-emerald-800/40">
+          <i class="fa-solid fa-bolt"></i>
+          <span>Ödeme onaylandığı an key ekranda gösterilecektir.</span>
+        </div>
+        <a 
+          href="checkout.html" 
+          id="checkoutBtn"
+          class="w-full py-3.5 px-4 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-bold text-sm text-center flex items-center justify-center gap-2 shadow-lg shadow-cyan-500/25 transition"
+        >
+          <span>Siparişi Tamamla & Key Al</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION -->
+  <div id="toast" class="fixed bottom-6 right-6 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl text-xs font-semibold text-white bg-slate-900 border border-slate-700">
+    <i id="toastIcon" class="fa-solid fa-circle-check text-emerald-400 text-base"></i>
+    <span id="toastMsg">Bildirim</span>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/app.js"></script>
+</body>
+</html>

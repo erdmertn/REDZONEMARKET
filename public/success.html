@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Siparişiniz Tamamlandı & Key Teslimatı - RedZone Market</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-[#090d16] text-gray-200 min-h-screen flex flex-col">
+
+  <!-- TOP NAVBAR -->
+  <nav class="bg-[#0c1220] border-b border-slate-800 py-4">
+    <div class="max-w-4xl mx-auto px-4 flex items-center justify-between">
+      <a href="index.html" class="flex items-center gap-3">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-rose-600 via-red-600 to-amber-500 flex items-center justify-center shadow-lg shadow-rose-600/30">
+          <i class="fa-solid fa-gamepad text-white text-base"></i>
+        </div>
+        <div class="font-heading text-xl font-bold text-white">
+          REDZONE<span class="text-rose-500">MARKET</span>
+        </div>
+      </a>
+      <a href="orders.html" class="text-xs font-semibold text-gray-400 hover:text-white transition">
+        Key Sorgula / Siparişlerim
+      </a>
+    </div>
+  </nav>
+
+  <!-- SUCCESS CONTAINER -->
+  <main class="max-w-4xl mx-auto px-4 py-12 flex-1 w-full">
+    
+    <!-- Loading state -->
+    <div id="successLoading" class="text-center py-20">
+      <i class="fa-solid fa-circle-notch fa-spin text-4xl text-cyan-400 mb-4"></i>
+      <p class="text-sm text-gray-400">Sipariş ve anahtarlar getiriliyor...</p>
+    </div>
+
+    <!-- Main Content -->
+    <div id="successContent" class="hidden space-y-8">
+      
+      <!-- Celebration Header -->
+      <div class="text-center max-w-xl mx-auto space-y-3">
+        <div class="w-16 h-16 rounded-3xl bg-emerald-500/20 border border-emerald-500/40 text-emerald-400 flex items-center justify-center mx-auto text-2xl shadow-xl shadow-emerald-500/20">
+          <i class="fa-solid fa-check"></i>
+        </div>
+        <h1 class="font-heading text-3xl sm:text-4xl font-black text-white uppercase tracking-wider">
+          Ödemeniz Onaylandı!
+        </h1>
+        <p class="text-sm text-gray-400">
+          Tebrikler! Oyun lisans anahtarlarınız stoktan tahsis edildi ve aşağıda kullanımınıza sunuldu.
+        </p>
+      </div>
+
+      <!-- Order Meta Info Card -->
+      <div class="bg-slate-900/80 border border-slate-800 rounded-2xl p-4 sm:p-6 flex flex-wrap items-center justify-between gap-4 text-xs">
+        <div>
+          <span class="text-gray-400">Sipariş No:</span>
+          <span id="orderIdText" class="font-bold text-cyan-400 font-mono text-sm ml-1.5">TR-000000</span>
+        </div>
+        <div>
+          <span class="text-gray-400">Tarih:</span>
+          <span id="orderDateText" class="text-gray-200 font-medium ml-1.5">--</span>
+        </div>
+        <div>
+          <span class="text-gray-400">Alıcı:</span>
+          <span id="orderCustomerText" class="text-gray-200 font-medium ml-1.5">--</span>
+        </div>
+        <div>
+          <span class="text-gray-400">Durum:</span>
+          <span id="orderStatusBadge" class="bg-emerald-950/80 border border-emerald-800 text-emerald-400 px-2.5 py-0.5 rounded-full font-bold ml-1.5">
+            Sipariş Onaylandı
+          </span>
+        </div>
+      </div>
+
+      <!-- KEY VAULT SECTION (The Highlight!) -->
+      <div class="space-y-6">
+        <div class="flex items-center justify-between">
+          <h2 class="font-heading text-xl font-bold text-white uppercase tracking-wide flex items-center gap-2">
+            <i class="fa-solid fa-key text-cyan-400"></i>
+            <span>Teslim Edilen Lisans Kodlarınız</span>
+          </h2>
+          <span class="text-xs text-gray-400">Tek tıkla kopyalayın</span>
+        </div>
+
+        <!-- Rendered Key Items -->
+        <div id="deliveredKeysList" class="space-y-6">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Actions & Security Notice -->
+      <div class="pt-6 border-t border-slate-800 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <div class="text-xs text-gray-400 flex items-center gap-2">
+          <i class="fa-solid fa-circle-check text-cyan-400"></i>
+          <span>Bu kodlar ayrıca <strong><span id="emailNotice"></span></strong> adresinize de iletilmiştir.</span>
+        </div>
+
+        <div class="flex items-center gap-3 w-full sm:w-auto">
+          <button onclick="window.print()" class="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-gray-300 text-xs font-semibold border border-slate-700 transition">
+            <i class="fa-solid fa-print mr-1.5"></i> Yazdır / PDF
+          </button>
+          <a href="index.html" class="px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-white text-xs font-bold shadow-lg shadow-cyan-500/20 transition">
+            Mağazaya Dön
+          </a>
+        </div>
+      </div>
+
+    </div>
+
+  </main>
+
+  <script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderId = urlParams.get('orderId');
+
+    document.addEventListener('DOMContentLoaded', async () => {
+      if (!orderId) {
+        window.location.href = 'index.html';
+        return;
+      }
+      await loadOrderDetails();
+    });
+
+    async function loadOrderDetails() {
+      try {
+        const res = await fetch(`/api/orders/${orderId}`);
+        if (!res.ok) throw new Error('Sipariş bulunamadı');
+        const order = await res.json();
+        renderOrder(order);
+      } catch (err) {
+        document.getElementById('successLoading').innerHTML = `
+          <div class="text-center py-16">
+            <i class="fa-solid fa-triangle-exclamation text-4xl text-red-400 mb-3"></i>
+            <h2 class="text-xl font-bold text-white">Sipariş Bulunamadı</h2>
+            <p class="text-xs text-gray-400 mt-2">${err.message}</p>
+            <a href="index.html" class="inline-block mt-4 px-4 py-2 bg-cyan-500 text-white rounded-xl text-xs font-bold">Mağazaya Dön</a>
+          </div>
+        `;
+      }
+    }
+
+    function renderOrder(order) {
+      document.getElementById('successLoading').classList.add('hidden');
+      document.getElementById('successContent').classList.remove('hidden');
+
+      document.getElementById('orderIdText').textContent = order.id;
+      document.getElementById('orderDateText').textContent = new Date(order.createdAt).toLocaleString('tr-TR');
+      document.getElementById('orderCustomerText').textContent = order.customer.name;
+      document.getElementById('emailNotice').textContent = order.customer.email;
+
+      const statusBadge = document.getElementById('orderStatusBadge');
+      if (order.hasKeys) {
+        statusBadge.textContent = 'Key Teslim Edildi';
+      } else {
+        statusBadge.textContent = 'Sipariş Hazırlanıyor';
+      }
+
+      const keysList = document.getElementById('deliveredKeysList');
+
+      keysList.innerHTML = order.items.map(item => `
+        <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+          
+          <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+            <div>
+              <span class="text-[10px] text-cyan-400 font-bold uppercase tracking-wider">${item.platform}</span>
+              <h3 class="text-base font-bold text-white">${item.productName}</h3>
+            </div>
+            <span class="text-xs text-gray-400 font-medium">${item.quantity} Adet</span>
+          </div>
+
+          <!-- KEY VAULT OR DIRECT DELIVERY NOTICE -->
+          <div class="space-y-3">
+            ${item.assignedKeys && item.assignedKeys.length > 0 ? item.assignedKeys.map((key, idx) => `
+              <div class="key-vault-box rounded-2xl p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                  <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-lg">
+                    <i class="fa-solid fa-key"></i>
+                  </div>
+                  <div>
+                    <div class="text-[10px] text-cyan-300 uppercase tracking-widest font-semibold">DİJİTAL LİSANS KODU #${idx + 1}</div>
+                    <div class="font-mono text-lg sm:text-xl font-black text-white tracking-widest select-all">${key}</div>
+                  </div>
+                </div>
+
+                <button 
+                  onclick="copyCode('${key}', this)" 
+                  class="w-full sm:w-auto px-5 py-2.5 rounded-xl bg-cyan-500 hover:bg-cyan-400 text-white font-bold text-xs shadow-lg shadow-cyan-500/25 transition active:scale-95 flex items-center justify-center gap-2 whitespace-nowrap"
+                >
+                  <i class="fa-regular fa-copy"></i>
+                  <span>Kopyala</span>
+                </button>
+              </div>
+            `).join('') : `
+              <div class="bg-slate-950/80 rounded-2xl p-4 border border-cyan-500/30 flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-cyan-500/10 text-cyan-400 flex items-center justify-center text-lg">
+                  <i class="fa-solid fa-clock-rotate-left"></i>
+                </div>
+                <div>
+                  <div class="text-xs font-bold text-white">Siparişiniz Başarıyla Alındı!</div>
+                  <div class="text-[11px] text-gray-400 mt-0.5">Siparişiniz ekibimiz tarafından onaylanmıştır. Teslimatınız belirtilen iletişim kanalından en kısa sürede gerçekleştirilecektir.</div>
+                </div>
+              </div>
+            `}
+          </div>
+
+          <!-- Activation Guide -->
+          ${item.activationGuide ? `
+            <div class="bg-slate-950/70 rounded-2xl p-4 border border-slate-800/80 text-xs">
+              <div class="font-bold text-cyan-400 mb-1 flex items-center gap-1.5">
+                <i class="fa-solid fa-circle-info text-[11px]"></i>
+                <span>Nasıl Aktifleştirilir?</span>
+              </div>
+              <p class="text-gray-300 whitespace-pre-line leading-relaxed pl-4 border-l border-cyan-500/40">${item.activationGuide}</p>
+            </div>
+          ` : ''}
+
+        </div>
+      `).join('');
+    }
+
+    function copyCode(code, btn) {
+      navigator.clipboard.writeText(code).then(() => {
+        const originalHtml = btn.innerHTML;
+        btn.innerHTML = `<i class="fa-solid fa-check"></i> <span>Kopyalandı!</span>`;
+        btn.classList.remove('bg-cyan-500', 'hover:bg-cyan-400');
+        btn.classList.add('bg-emerald-500', 'hover:bg-emerald-400');
+
+        setTimeout(() => {
+          btn.innerHTML = originalHtml;
+          btn.classList.remove('bg-emerald-500', 'hover:bg-emerald-400');
+          btn.classList.add('bg-cyan-500', 'hover:bg-cyan-400');
+        }, 2000);
+      }).catch(err => {
+        alert('Kod kopyalanamadı: ' + code);
+      });
+    }
+  </script>
+</body>
+</html>
