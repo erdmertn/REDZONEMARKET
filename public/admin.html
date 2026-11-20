@@ -23,7 +23,7 @@
         <input 
           type="password" 
           id="adminPinInput"
-          placeholder="Varsayılan PIN: admin123" 
+          placeholder="Yönetici Şifrenizi Girin" 
           class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-center text-sm text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 tracking-widest"
           required
         >
@@ -34,9 +34,6 @@
           Panele Giriş Yap
         </button>
       </form>
-      <div class="mt-4 text-[11px] text-gray-500">
-        Demo varsayılan PIN kodu: <span class="text-rose-400 font-mono">admin123</span>
-      </div>
     </div>
   </div>
 
@@ -396,6 +393,15 @@
                 <label class="block text-gray-400 mb-1">Hesap Sahibi Adı</label>
                 <input type="text" id="setAccountHolder" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
               </div>
+            </div>
+          </div>
+
+          <div class="pt-4 border-t border-slate-800">
+            <h4 class="font-bold text-sm text-rose-500 mb-2">Yönetici Giriş PIN / Şifre</h4>
+            <div>
+              <label class="block text-gray-400 mb-1">Yeni Yönetici Şifresi (PIN)</label>
+              <input type="text" id="setAdminPin" placeholder="Yeni PIN (Boş bırakırsanız mevcut şifre kalır)" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono">
+              <span class="text-[10px] text-gray-500 mt-1 block">Panele girerken sorduğu şifreyi buradan değiştirebilirsiniz.</span>
             </div>
           </div>
 

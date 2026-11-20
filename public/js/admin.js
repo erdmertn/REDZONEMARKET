@@ -135,6 +135,11 @@ function setupAdminListeners() {
         }
       };
 
+      const newPin = document.getElementById('setAdminPin')?.value.trim();
+      if (newPin) {
+        payload.adminPin = newPin;
+      }
+
       try {
         const res = await fetch('/api/admin/settings', {
           method: 'POST',
