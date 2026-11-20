@@ -146,6 +146,7 @@ function renderProducts() {
 function createProductCard(product) {
   const inStock = product.stock > 0;
   const platformIcons = {
+    'REDLUA LOADER': 'fa-solid fa-code text-rose-500',
     'PUBG Mobile': 'fa-solid fa-parachute-box text-amber-400',
     'PUBG PC (Steam)': 'fa-brands fa-steam text-blue-400',
     'PUBG PC / Mobile': 'fa-solid fa-gift text-purple-400',

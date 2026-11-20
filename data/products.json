@@ -1,5 +1,50 @@
 [
   {
+    "id": "redlua-loader-gunluk",
+    "name": "REDLUA LOADER - 1 Günlük Key (Giriş Lisansı)",
+    "category": "redlua",
+    "platform": "REDLUA LOADER",
+    "price": 49.90,
+    "oldPrice": 75.00,
+    "image": "images/site.jpg",
+    "tag": "GÜNLÜK TEST",
+    "featured": true,
+    "delivery": "Anında Otomatik Key Teslimatı",
+    "region": "Global / TR",
+    "description": "1 Günlük (24 Saatlik) REDLUA Loader tam erişim lisans anahtarı. Otomatik inject, bypass koruması ve anında teslimat.",
+    "activationGuide": "1. REDLUA Loader yazılımını başlatın.\n2. Satın aldığınız lisans keyinizi ilgili alana yapıştırın.\n3. 'Giriş Yap / Login' butonuna basarak anında kullanmaya başlayın."
+  },
+  {
+    "id": "redlua-loader-haftalik",
+    "name": "REDLUA LOADER - 7 Günlük Key (Haftalık Lisans)",
+    "category": "redlua",
+    "platform": "REDLUA LOADER",
+    "price": 149.90,
+    "oldPrice": 220.00,
+    "image": "images/site.jpg",
+    "tag": "HAFTALIK 🔥",
+    "featured": true,
+    "delivery": "Anında Otomatik Key Teslimatı",
+    "region": "Global / TR",
+    "description": "7 Günlük (1 Haftalık) kesintisiz REDLUA Loader lisansı. Otomatik güncelleme koruması, stabil bypass ve tam özellik erişimi.",
+    "activationGuide": "1. REDLUA Loader yazılımını açın.\n2. 7 günlük lisans kodunuzu girin.\n3. 'Login' butonuna basarak loader'ı aktifleştirin."
+  },
+  {
+    "id": "redlua-loader-aylik",
+    "name": "REDLUA LOADER - 30 Günlük Key (Aylık VIP Lisans)",
+    "category": "redlua",
+    "platform": "REDLUA LOADER",
+    "price": 299.90,
+    "oldPrice": 450.00,
+    "image": "images/site.jpg",
+    "tag": "AYLIK VIP 👑",
+    "featured": true,
+    "delivery": "Anında Otomatik Key Teslimatı",
+    "region": "Global / TR",
+    "description": "30 Günlük (1 Aylık) REDLUA Loader VIP paketi. 7/24 kesintisiz erişim, tüm güncellemelere anında erişim ve en avantajlı fiyat.",
+    "activationGuide": "1. REDLUA Loader yazılımını açın.\n2. Satın aldığınız aylık VIP lisans kodunuzu yapıştırın.\n3. 'Login' butonuna basarak sınırsız erişimin tadını çıkarın."
+  },
+  {
     "id": "pubg-mobile-60-uc",
     "name": "PUBG Mobile 60 UC (Global / TR)",
     "category": "mobile-uc",
@@ -12,7 +57,7 @@
     "delivery": "Anında E-Pin / ID Yükleme",
     "region": "TR / Global",
     "description": "PUBG Mobile Türkiye ve Global sunucularda geçerli 60 UC dijital E-Pin kodu. Midasbuy veya oyun içinden hemen aktif edebilirsiniz.",
-    "activationGuide": "1. www.midasbuy.com adresine gidin.\n2. PUBG Mobile oyununu seçip Oyuncu ID'nizi girin.\n3. 'Kodu Kullan' alanına satın aldığınız dijital kodu yapıştırıp onaylayın. UC anında hesabınıza yüklenecektir."
+    "activationGuide": "1. www.midasbuy.com adresine gidin.\n2. PUBG Mobile oyununu seçip Oyuncu ID'nizi girin.\n3. 'Kodu Kullan' alanına satın aldığınız dijital kodu yapıştırıp onaylayın."
   },
   {
     "id": "pubg-mobile-325-uc",
@@ -26,8 +71,8 @@
     "featured": true,
     "delivery": "Anında Otomatik Kod",
     "region": "TR / Global",
-    "description": "PUBG Mobile 300 + 25 Bonus toplam 325 UC dijital yükleme kodu. Silah desenleri, sandık açılımları ve çarklar için ideal paket.",
-    "activationGuide": "1. midasbuy.com adresine gidin.\n2. Oyuncu ID numaranızı girin.\n3. Satın aldığınız dijital kodu yapıştırıp onaylayın."
+    "description": "PUBG Mobile 300 + 25 Bonus toplam 325 UC dijital yükleme kodu. Silah desenleri ve sandık açılımları için ideal paket.",
+    "activationGuide": "1. midasbuy.com adresine gidin.\n2. Oyuncu ID numaranızı girin.\n3. Kodu yapıştırıp onaylayın."
   },
   {
     "id": "pubg-mobile-660-uc",
@@ -41,53 +86,8 @@
     "featured": true,
     "delivery": "Anında Otomatik Kod",
     "region": "TR / Global",
-    "description": "PUBG Mobile Sezon Royale Pass'i (A-Serisi) anında açabileceğiniz 600 + 60 Bonus toplam 660 UC dijital E-Pin kodu.",
-    "activationGuide": "1. midasbuy.com üzerinden ID'nizi girin.\n2. 'Kodu Kullan' alanına kodu yapıştırın.\n3. Oyun içine girip Royale Pass'inizi tek tıkla aktifleştirin!"
-  },
-  {
-    "id": "pubg-mobile-1800-uc",
-    "name": "PUBG Mobile 1800 UC (1500 + 300 Bonus UC)",
-    "category": "mobile-uc",
-    "platform": "PUBG Mobile",
-    "price": 849.00,
-    "oldPrice": 1050.00,
-    "image": "https://images.unsplash.com/photo-1511512578047-dfb367046420?w=600&auto=format&fit=crop&q=80",
-    "tag": "AVANTAJLI",
-    "featured": true,
-    "delivery": "Anında Otomatik Kod",
-    "region": "TR / Global",
-    "description": "Elite Pass Plus ve Özel Yükseltilebilir Silah Laboratuvarı yükseltmeleri için yüksek bonuslu 1800 UC paketi.",
-    "activationGuide": "1. midasbuy.com adresine gidin > Oyuncu ID'nizi girin.\n2. Kodu girip onaylayın."
-  },
-  {
-    "id": "pubg-mobile-3850-uc",
-    "name": "PUBG Mobile 3850 UC (3000 + 850 Bonus UC)",
-    "category": "mobile-uc",
-    "platform": "PUBG Mobile",
-    "price": 1699.00,
-    "oldPrice": 2100.00,
-    "image": "https://images.unsplash.com/photo-1550745165-9bc0b252726f?w=600&auto=format&fit=crop&q=80",
-    "tag": "%20 İNDİRİM",
-    "featured": false,
-    "delivery": "Anında Otomatik Kod",
-    "region": "TR / Global",
-    "description": "Büyük sandık açılımları ve X-Suit yükseltmeleri için devasa bonuslu 3850 UC dijital kodu.",
-    "activationGuide": "1. midasbuy.com > Oyuncu ID > Kodu Kullan."
-  },
-  {
-    "id": "pubg-mobile-8100-uc",
-    "name": "PUBG Mobile 8100 UC (6000 + 2100 Bonus UC)",
-    "category": "mobile-uc",
-    "platform": "PUBG Mobile",
-    "price": 3399.00,
-    "oldPrice": 4200.00,
-    "image": "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?w=600&auto=format&fit=crop&q=80",
-    "tag": "MEGA PAKET 👑",
-    "featured": true,
-    "delivery": "Anında Otomatik Kod",
-    "region": "TR / Global",
-    "description": "Maksimum bonuslu mega UC paketi. En son X-Suit zırhları ve destansı silah kaplamalarını fullemek için en uygun fiyat.",
-    "activationGuide": "1. midasbuy.com > Oyuncu ID > Kodu Kullan."
+    "description": "PUBG Mobile Sezon Royale Pass'i anında açabileceğiniz 600 + 60 Bonus toplam 660 UC dijital kodu.",
+    "activationGuide": "1. midasbuy.com üzerinden ID'nizi girin.\n2. 'Kodu Kullan' alanına kodu yapıştırın."
   },
   {
     "id": "pubg-pc-steam-plus",
@@ -101,37 +101,7 @@
     "featured": true,
     "delivery": "Anında Steam Lisans Kodu",
     "region": "Global / TR",
-    "description": "PUBG PC Dereceli (Ranked) maçlara erişim, Özel Maç kurma yetkisi, +1300 Bonus G-Coin ve Plus Özel Hatıra seti içeren orijinal Steam yükseltme lisansı.",
-    "activationGuide": "1. Steam istemcisini açın.\n2. Sol alt köşeden '+ Oyun Ekle' > 'Steam'de Ürün Etkinleştir...' yolunu izleyin.\n3. Aldığınız lisans kodunu girip hesabınızı Plus statüsüne yükseltin."
-  },
-  {
-    "id": "pubg-pc-1000-gcoin",
-    "name": "PUBG PC 1000 + 50 Bonus G-Coin (Steam)",
-    "category": "pc-game",
-    "platform": "PUBG PC (Steam)",
-    "price": 249.00,
-    "oldPrice": 320.00,
-    "image": "https://images.unsplash.com/photo-1579952363873-27f3bade9f55?w=600&auto=format&fit=crop&q=80",
-    "tag": "G-COIN",
-    "featured": false,
-    "delivery": "Anında Otomatik Kod",
-    "region": "Global / TR",
-    "description": "PUBG PC mağazasında silah kaplamaları, Survivor Pass ve Sandıklar için 1050 G-Coin dijital Steam kodu.",
-    "activationGuide": "1. PUBG PC oyununu açın.\n2. Oyun içi Dükkan (Store) sekmesine gidin.\n3. Sol alttaki 'Bonus / Hediye Kodu Ekle' butonuna basıp kodu girin."
-  },
-  {
-    "id": "pubg-vip-random-key",
-    "name": "PUBG Özel VIP Kasa / Rastgele Desen Keyi",
-    "category": "random-keys",
-    "platform": "PUBG PC / Mobile",
-    "price": 49.90,
-    "oldPrice": 120.00,
-    "image": "https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=600&auto=format&fit=crop&q=80",
-    "tag": "ŞANS KUTUSU 🎁",
-    "featured": true,
-    "delivery": "Anında Otomatik Teslimat",
-    "region": "Global / TR",
-    "description": "Garantili silah kaplaması, kıyafet sandığı veya UC/G-Coin bonusu içeren özel PUBG rastgele dijital şans anahtarı.",
-    "activationGuide": "Kodunuz teslim edildikten sonra ilgili platformda (Steam veya Midasbuy) hemen aktif edebilirsiniz."
+    "description": "PUBG PC Dereceli maçlara erişim, Özel Maç kurma yetkisi ve +1300 Bonus G-Coin içeren Steam Plus lisansı.",
+    "activationGuide": "1. Steam istemcisini açın.\n2. Sol alttan '+ Oyun Ekle' > 'Steam'de Ürün Etkinleştir' yolunu izleyin."
   }
 ]
