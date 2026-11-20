@@ -96,11 +96,11 @@
             </div>
 
             <div>
-              <label class="block text-gray-300 font-medium mb-1.5">Teslimat Notu / Oyun ID / Discord (İsteğe Bağlı)</label>
+              <label class="block text-gray-300 font-medium mb-1.5">PUBG Oyuncu ID / Discord / Not (İsteğe Bağlı)</label>
               <input 
                 type="text" 
                 id="custNote"
-                placeholder="Örn: Discord: redzone#1234 veya Riot ID: Oyuncu#TR1" 
+                placeholder="Örn: PUBG Oyuncu ID: 5123456789 veya Discord: redzone#1234" 
                 class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-cyan-500 transition"
               >
             </div>
@@ -199,6 +199,29 @@
                   <span class="text-[10px] bg-emerald-950/60 text-emerald-400 border border-emerald-800/60 px-2 py-0.5 rounded font-bold">0 Komisyon</span>
                 </div>
                 <p class="text-[11px] text-gray-400 mt-1">Banka hesabımıza FAST ile 7/24 anında havale yapabilirsiniz.</p>
+
+                <!-- Havale Details Box (Shows bank info) -->
+                <div id="havaleDetailsBox" class="hidden mt-4 pt-4 border-t border-slate-800/80 space-y-2.5 text-xs">
+                  <div class="bg-slate-900/90 p-3.5 rounded-xl border border-emerald-500/30 space-y-2">
+                    <div class="flex justify-between items-center text-[11px]">
+                      <span class="text-gray-400">Banka:</span>
+                      <span id="bankNameDisplay" class="font-bold text-white">Ziraat Bankası</span>
+                    </div>
+                    <div class="flex justify-between items-center text-[11px]">
+                      <span class="text-gray-400">Hesap Sahibi:</span>
+                      <span id="accountHolderDisplay" class="font-bold text-white">RedZone Market</span>
+                    </div>
+                    <div class="pt-1.5 border-t border-slate-800 flex items-center justify-between gap-2">
+                      <div class="font-mono text-emerald-400 font-bold text-xs select-all" id="ibanDisplay">TR33 0001 0002 0003 0004 0005 06</div>
+                      <button type="button" onclick="copyIban()" class="px-2.5 py-1 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-[10px] rounded-lg transition whitespace-nowrap">
+                        Kopyala
+                      </button>
+                    </div>
+                    <div class="text-[10px] text-gray-400 italic pt-1">
+                      * Açıklama kısmına Adınızı veya Sipariş Kodunuzu yazmayı unutmayınız.
+                    </div>
+                  </div>
+                </div>
               </div>
             </label>
 
@@ -283,8 +306,9 @@
   <script>
     let cart = JSON.parse(localStorage.getItem('gamekey_cart') || '[]');
 
-    document.addEventListener('DOMContentLoaded', () => {
+    document.addEventListener('DOMContentLoaded', async () => {
       renderSummary();
+      await loadBankSettings();
 
       // Switch active borders for payment method cards
       const methodCards = document.querySelectorAll('input[name="paymentMethod"]');
@@ -297,9 +321,38 @@
           const parent = radio.closest('.payment-method-card');
           parent.classList.remove('border-slate-800', 'bg-slate-950/60');
           parent.classList.add('border-cyan-500/50', 'bg-cyan-950/20');
+
+          // Toggle havale box
+          const havaleBox = document.getElementById('havaleDetailsBox');
+          if (radio.value === 'havale') {
+            havaleBox.classList.remove('hidden');
+          } else {
+            havaleBox.classList.add('hidden');
+          }
         });
       });
     });
+
+    async function loadBankSettings() {
+      try {
+        const res = await fetch('/api/settings');
+        const s = await res.json();
+        if (s.havale) {
+          if (s.havale.bankName) document.getElementById('bankNameDisplay').textContent = s.havale.bankName;
+          if (s.havale.accountHolder) document.getElementById('accountHolderDisplay').textContent = s.havale.accountHolder;
+          if (s.havale.iban) document.getElementById('ibanDisplay').textContent = s.havale.iban;
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    function copyIban() {
+      const iban = document.getElementById('ibanDisplay').textContent.trim();
+      navigator.clipboard.writeText(iban).then(() => {
+        alert('IBAN kopyalandı: ' + iban);
+      });
+    }
 
     function renderSummary() {
       const emptyBox = document.getElementById('checkoutEmptyWarning');

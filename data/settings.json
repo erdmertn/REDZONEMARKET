@@ -1,17 +1,17 @@
 {
-  "siteName": "RedZone Market",
-  "siteTitle": "RedZone Market - Türkiye Dijital Oyun & Key Satış Platformu",
-  "domain": "redzonemarket.com",
-  "contactEmail": "destek@redzonemarket.com",
+  "siteName": "RedZone Market - PUBG UC & Key Mağazası",
+  "siteTitle": "RedZone Market - Türkiye'nin En Hızlı PUBG Mobile UC & Steam Key Platformu",
+  "domain": "redzonemartket.com.tr",
+  "contactEmail": "destek@redzonemartket.com.tr",
   "contactPhone": "+90 (850) 888 00 00",
   "currency": "₺",
   "adminPin": "arasberk",
-  "announcement": "⚡ RedZone Market'e hoş geldiniz! Tüm oyun keyleri ve Valorant VP kodlarında 7/24 anında otomatik teslimat aktiftir!",
+  "announcement": "🪂 RedZone Market'e hoş geldiniz! PUBG Mobile UC ve PC Steam Keylerinde 7/24 anında otomatik teslimat aktiftir!",
   "shopier": {
-    "enabled": true,
+    "enabled": false,
     "testMode": true,
-    "apiKey": "test_shopier_api_key_12345",
-    "apiSecret": "test_shopier_secret_67890"
+    "apiKey": "",
+    "apiSecret": ""
   },
   "havale": {
     "enabled": true,

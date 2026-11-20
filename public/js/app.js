@@ -146,12 +146,11 @@ function renderProducts() {
 function createProductCard(product) {
   const inStock = product.stock > 0;
   const platformIcons = {
+    'PUBG Mobile': 'fa-solid fa-parachute-box text-amber-400',
+    'PUBG PC (Steam)': 'fa-brands fa-steam text-blue-400',
+    'PUBG PC / Mobile': 'fa-solid fa-gift text-purple-400',
     Steam: 'fa-brands fa-steam text-blue-400',
-    'Riot Games': 'fa-solid fa-fire text-red-500',
-    'Rockstar / Epic': 'fa-solid fa-cube text-purple-400',
-    'Xbox / PC': 'fa-brands fa-xbox text-green-400',
-    'EA App': 'fa-solid fa-gamepad text-orange-400',
-    PlayStation: 'fa-brands fa-playstation text-blue-500'
+    'Riot Games': 'fa-solid fa-fire text-red-500'
   };
 
   const iconClass = platformIcons[product.platform] || 'fa-solid fa-gamepad text-cyan-400';
