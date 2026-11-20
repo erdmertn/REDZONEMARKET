@@ -41,6 +41,186 @@ function writeJson(filename, data) {
 
 // ---------------- API ROUTES ---------------- //
 
+// --- AUTHENTICATION & BAYI (RESELLER) ROUTES --- //
+
+// Check Referral Code Live (for instant feedback in register form)
+app.get('/api/auth/verify-referral', (req, res) => {
+  const code = (req.query.code || '').trim().toUpperCase();
+  if (!code) {
+    return res.status(400).json({ valid: false, error: 'Lütfen bir referans kodu girin.' });
+  }
+
+  const referrals = readJson('referrals.json');
+  const found = referrals.find((r) => r.code.toUpperCase() === code && r.isActive);
+
+  if (!found) {
+    return res.status(404).json({ valid: false, error: 'Geçersiz veya süresi dolmuş Bayi Referans Kodu!' });
+  }
+
+  res.json({
+    valid: true,
+    name: found.name,
+    discount: found.discount,
+    message: `Geçerli Bayi Kodu! %${found.discount} Bayi İndirimi Tanımlandı.`
+  });
+});
+
+// POST /api/auth/register (Üye veya Bayi Kaydı)
+app.post('/api/auth/register', (req, res) => {
+  const { username, email, password, referralCode, isBayi } = req.body;
+
+  if (!username || !email || !password) {
+    return res.status(400).json({ error: 'Kullanıcı adı, e-posta ve şifre zorunludur.' });
+  }
+
+  if (password.length < 4) {
+    return res.status(400).json({ error: 'Şifreniz en az 4 karakter olmalıdır.' });
+  }
+
+  const users = readJson('users.json');
+  const cleanEmail = email.trim().toLowerCase();
+  const cleanUsername = username.trim();
+
+  // Check uniqueness
+  if (users.some((u) => u.email.toLowerCase() === cleanEmail)) {
+    return res.status(400).json({ error: 'Bu e-posta adresi ile zaten bir hesap mevcut.' });
+  }
+  if (users.some((u) => u.username.toLowerCase() === cleanUsername.toLowerCase())) {
+    return res.status(400).json({ error: 'Bu kullanıcı adı zaten alınmış.' });
+  }
+
+  let role = 'customer';
+  let discountRate = 0;
+  let resellerBadge = null;
+  let cleanRefCode = referralCode ? referralCode.trim().toUpperCase() : null;
+
+  // Bayi Registration Requires Valid Referral Code
+  if (isBayi) {
+    if (!cleanRefCode) {
+      return res.status(400).json({ error: 'Bayi kaydı için geçerli bir Bayi Referans Kodu girmelisiniz!' });
+    }
+
+    const referrals = readJson('referrals.json');
+    const refIndex = referrals.findIndex((r) => r.code.toUpperCase() === cleanRefCode && r.isActive);
+
+    if (refIndex === -1) {
+      return res.status(400).json({ error: 'Geçersiz veya süresi dolmuş Bayi Referans Kodu!' });
+    }
+
+    // Grant Reseller Role & Discount
+    role = 'reseller';
+    discountRate = referrals[refIndex].discount || 20;
+    resellerBadge = referrals[refIndex].name || 'YETKİLİ BAYİ';
+
+    // Increment used count
+    referrals[refIndex].usedCount = (referrals[refIndex].usedCount || 0) + 1;
+    writeJson('referrals.json', referrals);
+  }
+
+  const newUser = {
+    id: 'usr_' + Date.now(),
+    username: cleanUsername,
+    email: cleanEmail,
+    password: password, // In production hash with bcrypt
+    role,
+    resellerBadge,
+    discountRate,
+    balance: 0.00,
+    referralCodeUsed: cleanRefCode,
+    myReferralCode: cleanUsername.toUpperCase() + Math.floor(10 + Math.random() * 90),
+    createdAt: new Date().toISOString()
+  };
+
+  users.push(newUser);
+  writeJson('users.json', users);
+
+  const safeUser = { ...newUser };
+  delete safeUser.password;
+
+  res.json({
+    success: true,
+    message: isBayi ? 'Tebrikler! Bayi hesabınız başarıyla oluşturuldu.' : 'Kayıt başarılı! Hoş geldiniz.',
+    user: safeUser,
+    token: 'auth_' + Buffer.from(safeUser.id + ':' + safeUser.email).toString('base64')
+  });
+});
+
+// POST /api/auth/login (Üye veya Bayi Girişi)
+app.post('/api/auth/login', (req, res) => {
+  const { emailOrUser, password } = req.body;
+
+  if (!emailOrUser || !password) {
+    return res.status(400).json({ error: 'Lütfen kullanıcı bilgilerinizi ve şifrenizi girin.' });
+  }
+
+  const users = readJson('users.json');
+  const input = emailOrUser.trim().toLowerCase();
+
+  const user = users.find(
+    (u) =>
+      (u.email.toLowerCase() === input || u.username.toLowerCase() === input) &&
+      u.password === password
+  );
+
+  if (!user) {
+    return res.status(401).json({ error: 'Hatalı e-posta, kullanıcı adı veya şifre!' });
+  }
+
+  const safeUser = { ...user };
+  delete safeUser.password;
+
+  res.json({
+    success: true,
+    message: `Hoş geldiniz, ${safeUser.username}!`,
+    user: safeUser,
+    token: 'auth_' + Buffer.from(safeUser.id + ':' + safeUser.email).toString('base64')
+  });
+});
+
+// Admin Users & Referrals API
+app.get('/api/admin/users', (req, res) => {
+  const users = readJson('users.json');
+  const safeUsers = users.map((u) => {
+    const s = { ...u };
+    delete s.password;
+    return s;
+  });
+  res.json(safeUsers);
+});
+
+app.get('/api/admin/referrals', (req, res) => {
+  const referrals = readJson('referrals.json');
+  res.json(referrals);
+});
+
+app.post('/api/admin/referrals', (req, res) => {
+  const { code, name, discount, maxUses } = req.body;
+  if (!code) {
+    return res.status(400).json({ error: 'Referans kodu zorunludur.' });
+  }
+
+  const referrals = readJson('referrals.json');
+  const cleanCode = code.trim().toUpperCase();
+
+  if (referrals.some((r) => r.code.toUpperCase() === cleanCode)) {
+    return res.status(400).json({ error: 'Bu referans kodu zaten mevcut.' });
+  }
+
+  const newRef = {
+    code: cleanCode,
+    name: name || 'Özel Bayi Kodu',
+    type: 'reseller',
+    discount: parseInt(discount || 20, 10),
+    maxUses: parseInt(maxUses || 50, 10),
+    usedCount: 0,
+    isActive: true
+  };
+
+  referrals.push(newRef);
+  writeJson('referrals.json', referrals);
+  res.json({ success: true, referral: newRef });
+});
+
 // GET /api/settings
 app.get('/api/settings', (req, res) => {
   const settings = readJson('settings.json');

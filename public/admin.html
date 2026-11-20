@@ -124,6 +124,9 @@
       <button onclick="switchTab('orders')" id="tab-orders" class="admin-tab px-4 py-2 rounded-xl text-gray-400 hover:text-white flex items-center gap-2">
         <i class="fa-solid fa-receipt"></i> Siparişler
       </button>
+      <button onclick="switchTab('resellers')" id="tab-resellers" class="admin-tab px-4 py-2 rounded-xl text-gray-400 hover:text-white flex items-center gap-2">
+        <i class="fa-solid fa-id-card-clip"></i> Bayiler & Referans Kodları
+      </button>
       <button onclick="switchTab('settings')" id="tab-settings" class="admin-tab px-4 py-2 rounded-xl text-gray-400 hover:text-white flex items-center gap-2">
         <i class="fa-solid fa-sliders"></i> Mağaza Ayarları
       </button>
@@ -339,6 +342,95 @@
           </table>
         </div>
       </div>
+    </div>
+
+    <!-- TAB: BAYİLER & REFERANS KODLARI -->
+    <div id="content-resellers" class="tab-pane hidden space-y-6">
+      
+      <!-- New Referral Code Form -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl">
+        <h3 class="font-heading text-lg font-bold text-white uppercase tracking-wider mb-2 flex items-center gap-2">
+          <i class="fa-solid fa-ticket text-amber-400"></i>
+          <span>Yeni Bayi Referans Kodu Oluştur</span>
+        </h3>
+        <p class="text-xs text-gray-400 mb-6">
+          Bayiler siteye kayıt olurken bu referans kodunu girmek zorundadır. Kod tanımlandığında bayi otomatik olarak belirlediğiniz indirim oranından faydalanır.
+        </p>
+
+        <form id="referralForm" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+          <div>
+            <label class="block text-gray-300 font-semibold mb-1">Referans Kodu *</label>
+            <input type="text" id="refCode" placeholder="Örn: BAYI2026, VIP77" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white font-mono uppercase" required>
+          </div>
+          <div>
+            <label class="block text-gray-300 font-semibold mb-1">Bayi Grubu / Açıklama *</label>
+            <input type="text" id="refName" placeholder="Örn: PUBG VIP Bayileri" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" required>
+          </div>
+          <div>
+            <label class="block text-gray-300 font-semibold mb-1">İndirim Yüzdesi (%) *</label>
+            <input type="number" id="refDiscount" value="20" min="1" max="90" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white" required>
+          </div>
+          <div>
+            <label class="block text-gray-300 font-semibold mb-1">Kullanım Limiti</label>
+            <input type="number" id="refMaxUses" value="100" min="1" class="w-full bg-slate-950 border border-slate-700 rounded-xl px-3 py-2 text-white">
+          </div>
+          <div class="md:col-span-4 flex justify-end">
+            <button type="submit" class="px-6 py-2.5 bg-gradient-to-r from-amber-500 to-orange-600 hover:from-amber-400 hover:to-orange-500 text-white font-bold rounded-xl transition shadow-lg shadow-amber-500/20">
+              <i class="fa-solid fa-plus mr-1.5"></i> Referans Kodunu Kaydet
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <!-- Active Referral Codes Table -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+        <h3 class="font-heading text-lg font-bold text-white uppercase tracking-wider flex items-center justify-between">
+          <span>Tanımlı Bayi Referans Kodları</span>
+          <span class="text-xs text-amber-400 bg-amber-500/10 px-3 py-1 rounded-full border border-amber-500/20 font-normal">Aktif Kodlar</span>
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-950 text-gray-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
+              <tr>
+                <th class="p-3">Referans Kodu</th>
+                <th class="p-3">Bayi Grubu</th>
+                <th class="p-3">İndirim Oranı</th>
+                <th class="p-3">Kullanım / Limit</th>
+                <th class="p-3">Durum</th>
+              </tr>
+            </thead>
+            <tbody id="referralsTableBody" class="divide-y divide-slate-800/80">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Registered Users Table -->
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 shadow-xl space-y-4">
+        <h3 class="font-heading text-lg font-bold text-white uppercase tracking-wider flex items-center justify-between">
+          <span>Kayıtlı Üyeler ve Bayiler</span>
+          <span id="userCountBadge" class="text-xs text-cyan-400 bg-cyan-500/10 px-3 py-1 rounded-full border border-cyan-500/20 font-normal">0 Kullanıcı</span>
+        </h3>
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs">
+            <thead class="bg-slate-950 text-gray-400 uppercase text-[10px] tracking-wider border-b border-slate-800">
+              <tr>
+                <th class="p-3">Kullanıcı Adı</th>
+                <th class="p-3">E-Posta</th>
+                <th class="p-3">Rol</th>
+                <th class="p-3">İndirim Oranı</th>
+                <th class="p-3">Kullanılan Referans</th>
+                <th class="p-3">Kayıt Tarihi</th>
+              </tr>
+            </thead>
+            <tbody id="usersTableBody" class="divide-y divide-slate-800/80">
+              <!-- Rendered by JS -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
     </div>
 
     <!-- TAB 4: MAĞAZA VE ÖDEME AYARLARI -->

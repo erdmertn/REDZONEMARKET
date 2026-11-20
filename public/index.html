@@ -49,27 +49,59 @@
         </div>
 
         <!-- Action Buttons -->
-        <div class="flex items-center gap-3 sm:gap-4">
+        <div class="flex items-center gap-2 sm:gap-3">
           
-          <!-- Key Sorgula / Siparişlerim -->
-          <a href="orders.html" class="hidden sm:flex items-center gap-2 px-3.5 py-2 rounded-xl bg-slate-800/80 hover:bg-slate-700/90 border border-slate-700 text-xs font-semibold text-gray-200 hover:text-white transition">
-            <i class="fa-solid fa-key text-cyan-400"></i>
-            <span>Keylerimi Gör</span>
-          </a>
+          <!-- User Auth Section (Dynamic: Guest vs Member vs Bayi) -->
+          <div id="navAuthGuest" class="flex items-center gap-2">
+            <button 
+              onclick="openAuthModal('login')" 
+              class="px-3 py-2 rounded-xl bg-slate-800/90 hover:bg-slate-700 text-xs font-semibold text-gray-200 hover:text-white border border-slate-700 transition flex items-center gap-1.5"
+            >
+              <i class="fa-solid fa-user text-rose-500 text-xs"></i>
+              <span>Giriş Yap</span>
+            </button>
+
+            <button 
+              onclick="openAuthModal('reseller')" 
+              class="px-3 py-2 rounded-xl bg-gradient-to-r from-amber-500 to-rose-600 hover:from-amber-400 hover:to-rose-500 text-black text-xs font-extrabold shadow-lg shadow-amber-500/20 transition flex items-center gap-1.5"
+              title="Referans Kodu ile Bayi Girişi"
+            >
+              <i class="fa-solid fa-crown text-black text-xs"></i>
+              <span class="hidden sm:inline">Bayi Girişi</span>
+              <span class="sm:hidden">Bayi</span>
+            </button>
+          </div>
+
+          <!-- Logged In User Pill (Hidden by default) -->
+          <div id="navAuthUser" class="hidden items-center gap-2 bg-slate-900/90 border border-slate-700/80 px-3 py-1.5 rounded-xl">
+            <div class="w-7 h-7 rounded-lg bg-gradient-to-tr from-rose-600 to-amber-500 flex items-center justify-center text-white text-xs font-bold">
+              <span id="navUserInitial">U</span>
+            </div>
+            <div class="text-left">
+              <div class="flex items-center gap-1.5">
+                <span id="navUserName" class="text-xs font-bold text-white max-w-[100px] truncate">Kullanıcı</span>
+                <span id="navUserRoleBadge" class="text-[9px] px-1.5 py-0.2 rounded font-black"></span>
+              </div>
+              <div id="navUserDiscount" class="text-[10px] text-amber-400 font-semibold -mt-0.5"></div>
+            </div>
+            <button onclick="logoutUser()" class="text-gray-400 hover:text-rose-400 p-1 text-xs transition ml-1" title="Çıkış Yap">
+              <i class="fa-solid fa-right-from-bracket"></i>
+            </button>
+          </div>
 
           <!-- Sepet Butonu -->
           <button 
             id="cartBtn"
-            class="relative flex items-center gap-2.5 px-4 py-2.5 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-sm shadow-lg shadow-cyan-500/20 transition active:scale-95"
+            class="relative flex items-center gap-2 px-3.5 py-2 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-white font-semibold text-xs shadow-lg shadow-cyan-500/20 transition active:scale-95"
           >
             <i class="fa-solid fa-cart-shopping"></i>
             <span class="hidden sm:inline">Sepet</span>
-            <span id="cartCountBadge" class="w-5 h-5 rounded-full bg-black/60 text-white text-xs flex items-center justify-center font-bold">0</span>
+            <span id="cartCountBadge" class="w-4 h-4 rounded-full bg-black/70 text-white text-[10px] flex items-center justify-center font-bold">0</span>
           </button>
 
           <!-- Admin Link -->
-          <a href="admin.html" title="Yönetici Paneli" class="p-2.5 rounded-xl bg-slate-800/50 hover:bg-slate-750 text-gray-400 hover:text-cyan-400 border border-slate-700/60 transition">
-            <i class="fa-solid fa-gear"></i>
+          <a href="admin.html" title="Yönetici Paneli" class="p-2 rounded-xl bg-slate-800/50 hover:bg-slate-750 text-gray-400 hover:text-cyan-400 border border-slate-700/60 transition">
+            <i class="fa-solid fa-gear text-xs"></i>
           </a>
 
         </div>
@@ -374,6 +406,182 @@
           <i class="fa-solid fa-arrow-right"></i>
         </a>
       </div>
+
+    </div>
+  </div>
+
+  <!-- AUTH MODAL (MÜŞTERİ & BAYİ GİRİŞ / KAYIT) -->
+  <div id="userAuthModal" class="fixed inset-0 bg-black/85 backdrop-blur-md z-50 hidden items-center justify-center p-4">
+    <div class="bg-[#0f172a] border border-slate-700/80 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl relative">
+      
+      <!-- Close Button -->
+      <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-gray-400 hover:text-white p-2 rounded-xl hover:bg-slate-800 transition">
+        <i class="fa-solid fa-xmark text-lg"></i>
+      </button>
+
+      <!-- Modal Tabs -->
+      <div class="flex items-center gap-1.5 p-1 bg-slate-900 rounded-2xl border border-slate-800 mb-6 text-xs font-bold">
+        <button id="authTabLogin" onclick="switchAuthTab('login')" class="flex-1 py-2 rounded-xl text-center transition bg-slate-800 text-white shadow">
+          Giriş Yap
+        </button>
+        <button id="authTabRegister" onclick="switchAuthTab('register')" class="flex-1 py-2 rounded-xl text-center transition text-gray-400 hover:text-white">
+          Kayıt Ol
+        </button>
+        <button id="authTabReseller" onclick="switchAuthTab('reseller')" class="flex-1 py-2 rounded-xl text-center transition text-amber-400 hover:text-amber-300 flex items-center justify-center gap-1">
+          <i class="fa-solid fa-crown text-[10px]"></i> Bayi Kaydı
+        </button>
+      </div>
+
+      <!-- 1. LOGIN FORM -->
+      <form id="userLoginForm" class="space-y-4 text-xs">
+        <div>
+          <label class="block text-gray-300 font-semibold mb-1">E-Posta veya Kullanıcı Adı *</label>
+          <input 
+            type="text" 
+            id="loginEmailOrUser"
+            placeholder="Kullanıcı adınız veya e-posta" 
+            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-rose-500"
+            required
+          >
+        </div>
+        <div>
+          <label class="block text-gray-300 font-semibold mb-1">Şifre *</label>
+          <input 
+            type="password" 
+            id="loginPassword"
+            placeholder="••••••••" 
+            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-white placeholder-gray-500 focus:outline-none focus:border-rose-500"
+            required
+          >
+        </div>
+        <button 
+          type="submit" 
+          class="w-full py-3.5 rounded-xl bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white font-bold text-xs shadow-lg shadow-rose-600/25 transition active:scale-95"
+        >
+          Giriş Yap
+        </button>
+        <div class="text-center pt-2 text-gray-400 text-[11px]">
+          Hesabınız yok mu? <a href="#" onclick="switchAuthTab('register')" class="text-rose-400 hover:underline font-semibold">Hemen Kayıt Olun</a>
+        </div>
+      </form>
+
+      <!-- 2. STANDARD REGISTER FORM -->
+      <form id="userRegisterForm" class="hidden space-y-3.5 text-xs">
+        <div>
+          <label class="block text-gray-300 font-semibold mb-1">Kullanıcı Adı *</label>
+          <input 
+            type="text" 
+            id="regUsername"
+            placeholder="Örn: ProOyuncu" 
+            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-rose-500"
+            required
+          >
+        </div>
+        <div>
+          <label class="block text-gray-300 font-semibold mb-1">E-Posta Adresi *</label>
+          <input 
+            type="email" 
+            id="regEmail"
+            placeholder="ahmet@gmail.com" 
+            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-rose-500"
+            required
+          >
+        </div>
+        <div>
+          <label class="block text-gray-300 font-semibold mb-1">Şifre *</label>
+          <input 
+            type="password" 
+            id="regPassword"
+            placeholder="En az 4 karakter" 
+            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-rose-500"
+            required
+          >
+        </div>
+        <button 
+          type="submit" 
+          class="w-full py-3.5 rounded-xl bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold text-xs shadow-lg shadow-cyan-600/25 transition active:scale-95"
+        >
+          Kayıt Ol ve Giriş Yap
+        </button>
+      </form>
+
+      <!-- 3. RESELLER (BAYİ) REGISTER FORM (REFERRAL CODE REQUIRED) -->
+      <form id="resellerRegisterForm" class="hidden space-y-3.5 text-xs">
+        <div class="bg-amber-950/40 border border-amber-500/40 p-3 rounded-2xl text-[11px] text-amber-300 flex items-start gap-2.5 mb-3">
+          <i class="fa-solid fa-crown text-base mt-0.5 text-amber-400"></i>
+          <div>
+            <div class="font-bold">Yetkili Bayi Kaydı</div>
+            <p class="text-gray-300 text-[10px] mt-0.5">Bayi girişi yapabilmek için yöneticinizden aldığınız <strong>Bayi Referans Kodunu</strong> girmeniz zorunludur.</p>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-amber-300 font-semibold mb-1">Bayi Referans Kodu (Zorunlu) *</label>
+          <div class="relative">
+            <input 
+              type="text" 
+              id="bayiRefCode"
+              placeholder="Örn: BAYI2026 veya REDZONEVIP" 
+              class="w-full bg-slate-950 border border-amber-500/50 rounded-xl px-4 py-2.5 text-white placeholder-gray-600 uppercase font-mono tracking-wider focus:outline-none focus:border-amber-400"
+              required
+            >
+            <button 
+              type="button" 
+              onclick="checkReferralLive()" 
+              class="absolute right-2 top-1.5 px-2.5 py-1 bg-amber-500 hover:bg-amber-400 text-black text-[10px] font-black rounded-lg transition"
+            >
+              Kontrol Et
+            </button>
+          </div>
+          <!-- Live check status message -->
+          <div id="refCheckMsg" class="text-[11px] font-bold mt-1.5 hidden"></div>
+        </div>
+
+        <div>
+          <label class="block text-gray-300 font-semibold mb-1">Bayi Kullanıcı Adı *</label>
+          <input 
+            type="text" 
+            id="bayiUsername"
+            placeholder="Örn: RedZoneBayi" 
+            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+            required
+          >
+        </div>
+
+        <div>
+          <label class="block text-gray-300 font-semibold mb-1">E-Posta Adresi *</label>
+          <input 
+            type="email" 
+            id="bayiEmail"
+            placeholder="bayi@firma.com" 
+            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+            required
+          >
+        </div>
+
+        <div>
+          <label class="block text-gray-300 font-semibold mb-1">Şifre *</label>
+          <input 
+            type="password" 
+            id="bayiPassword"
+            placeholder="••••••••" 
+            class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-gray-500 focus:outline-none focus:border-amber-500"
+            required
+          >
+        </div>
+
+        <button 
+          type="submit" 
+          class="w-full py-3.5 rounded-xl bg-gradient-to-r from-amber-500 via-orange-500 to-rose-600 hover:from-amber-400 hover:to-rose-500 text-black font-black text-xs shadow-xl shadow-amber-500/25 transition active:scale-95 flex items-center justify-center gap-1.5"
+        >
+          <i class="fa-solid fa-crown"></i>
+          <span>Bayi Hesabı Oluştur & Giriş Yap</span>
+        </button>
+
+        <div class="text-[10px] text-gray-500 text-center pt-1">
+          Demo geçerli kodlar: <span class="text-amber-400 font-mono">BAYI2026</span>, <span class="text-amber-400 font-mono">REDZONEVIP</span>
+        </div>
+      </form>
 
     </div>
   </div>

@@ -155,6 +155,36 @@ function setupAdminListeners() {
       }
     });
   }
+
+  // Referral Code Creation Form
+  const referralForm = document.getElementById('referralForm');
+  if (referralForm) {
+    referralForm.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const code = document.getElementById('refCode').value.trim();
+      const name = document.getElementById('refName').value.trim();
+      const discount = document.getElementById('refDiscount').value;
+      const maxUses = document.getElementById('refMaxUses').value;
+
+      try {
+        const res = await fetch('/api/admin/referrals', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ code, name, discount, maxUses })
+        });
+        const data = await res.json();
+        if (data.success) {
+          alert('Bayi referans kodu başarıyla oluşturuldu: ' + data.referral.code);
+          referralForm.reset();
+          await loadReferrals();
+        } else {
+          alert('Hata: ' + (data.error || 'Oluşturulamadı'));
+        }
+      } catch (err) {
+        alert('Kayıt hatası: ' + err.message);
+      }
+    });
+  }
 }
 
 async function initAdminData() {
@@ -163,7 +193,9 @@ async function initAdminData() {
     loadProducts(),
     loadKeysTable(),
     loadOrders(),
-    loadSettings()
+    loadSettings(),
+    loadReferrals(),
+    loadUsers()
   ]);
 }
 
@@ -390,4 +422,69 @@ function formatCurrency(val) {
     currency: 'TRY',
     minimumFractionDigits: 2
   }).format(val || 0);
+}
+
+async function loadReferrals() {
+  try {
+    const res = await fetch('/api/admin/referrals');
+    const list = await res.json();
+    const tbody = document.getElementById('referralsTableBody');
+    if (!tbody) return;
+
+    if (!list || list.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="5" class="p-6 text-center text-gray-500">Henüz referans kodu oluşturulmamış.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = list.map(r => `
+      <tr class="hover:bg-slate-800/40">
+        <td class="p-3 font-mono font-bold text-amber-400">${r.code}</td>
+        <td class="p-3 text-white font-medium">${r.name}</td>
+        <td class="p-3"><span class="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 font-bold">%${r.discount} İndirim</span></td>
+        <td class="p-3 text-gray-300">${r.usedCount || 0} / ${r.maxUses || 'Limitsiz'}</td>
+        <td class="p-3"><span class="px-2 py-0.5 rounded bg-blue-500/10 text-blue-400 border border-blue-500/20 text-[10px] uppercase font-bold">${r.isActive ? 'Aktif' : 'Pasif'}</span></td>
+      </tr>
+    `).join('');
+  } catch (err) {
+    console.error('Referrals load error:', err);
+  }
+}
+
+async function loadUsers() {
+  try {
+    const res = await fetch('/api/admin/users');
+    const users = await res.json();
+    const tbody = document.getElementById('usersTableBody');
+    const badge = document.getElementById('userCountBadge');
+    if (badge) badge.textContent = `${users.length} Kayıtlı Kullanıcı`;
+    if (!tbody) return;
+
+    if (!users || users.length === 0) {
+      tbody.innerHTML = `<tr><td colspan="6" class="p-6 text-center text-gray-500">Henüz kayıtlı üye bulunmamaktadır.</td></tr>`;
+      return;
+    }
+
+    tbody.innerHTML = users.map(u => {
+      const isReseller = u.role === 'reseller';
+      return `
+        <tr class="hover:bg-slate-800/40">
+          <td class="p-3 font-bold text-white flex items-center gap-1.5">
+            ${isReseller ? '<i class="fa-solid fa-crown text-amber-400 text-xs"></i>' : '<i class="fa-solid fa-user text-gray-400 text-xs"></i>'}
+            ${u.username}
+          </td>
+          <td class="p-3 text-gray-400 font-mono">${u.email}</td>
+          <td class="p-3">
+            <span class="px-2 py-0.5 rounded text-[10px] font-bold uppercase ${isReseller ? 'bg-amber-500/15 text-amber-400 border border-amber-500/30' : 'bg-slate-800 text-gray-300 border border-slate-700'}">
+              ${isReseller ? '👑 YETKİLİ BAYİ' : 'Standart Müşteri'}
+            </span>
+          </td>
+          <td class="p-3 font-semibold text-emerald-400">%${u.discountRate || 0}</td>
+          <td class="p-3 font-mono text-xs text-gray-400">${u.referralCodeUsed || '-'}</td>
+          <td class="p-3 text-gray-500 text-[11px]">${u.createdAt ? new Date(u.createdAt).toLocaleDateString('tr-TR') : '-'}</td>
+        </tr>
+      `;
+    }).join('');
+  } catch (err) {
+    console.error('Users load error:', err);
+  }
 }

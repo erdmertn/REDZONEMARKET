@@ -1,0 +1,28 @@
+[
+  {
+    "id": "usr_demo_bayi",
+    "username": "DemoBayi",
+    "email": "bayi@redzonemarket.com",
+    "password": "bayi123",
+    "role": "reseller",
+    "resellerBadge": "VIP BAYİ",
+    "discountRate": 20,
+    "balance": 1500.00,
+    "referralCodeUsed": "BAYI2026",
+    "myReferralCode": "DEMOBAYI88",
+    "createdAt": "2026-11-21T00:00:00.000Z"
+  },
+  {
+    "id": "usr_demo_uye",
+    "username": "OyuncuAras",
+    "email": "oyuncu@redzonemarket.com",
+    "password": "123456",
+    "role": "customer",
+    "resellerBadge": null,
+    "discountRate": 0,
+    "balance": 0.00,
+    "referralCodeUsed": null,
+    "myReferralCode": "ARAS10",
+    "createdAt": "2026-11-21T00:00:00.000Z"
+  }
+]

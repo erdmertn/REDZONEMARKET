@@ -1,0 +1,29 @@
+[
+  {
+    "code": "BAYI2026",
+    "name": "Resmi Bayi Kodu (Genel)",
+    "type": "reseller",
+    "discount": 20,
+    "maxUses": 100,
+    "usedCount": 1,
+    "isActive": true
+  },
+  {
+    "code": "REDZONEVIP",
+    "name": "VIP Bayi Kodu",
+    "type": "reseller",
+    "discount": 25,
+    "maxUses": 50,
+    "usedCount": 0,
+    "isActive": true
+  },
+  {
+    "code": "LUA2026",
+    "name": "RedLua Yetkili Satıcı Kodu",
+    "type": "reseller",
+    "discount": 30,
+    "maxUses": 25,
+    "usedCount": 0,
+    "isActive": true
+  }
+]
