@@ -15,8 +15,28 @@ async function initApp() {
   setupAuthForms();
   updateUserAuthUI();
   updateCartBadge();
+  checkUrlReferral();
   await loadProducts();
   await loadSettings();
+}
+
+function checkUrlReferral() {
+  try {
+    const params = new URLSearchParams(window.location.search);
+    const ref = params.get('ref') || params.get('bayi') || params.get('referral');
+    if (ref) {
+      setTimeout(() => {
+        openAuthModal('reseller');
+        const input = document.getElementById('bayiRefCode');
+        if (input) {
+          input.value = ref.trim().toUpperCase();
+          checkReferralLive();
+        }
+      }, 300);
+    }
+  } catch (err) {
+    console.error('URL referral check error:', err);
+  }
 }
 
 function setupEventListeners() {
